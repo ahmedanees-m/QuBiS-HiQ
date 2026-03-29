@@ -1,21 +1,5 @@
 """
-REVIEWER FIX #2: Classical ML Baseline Comparison
-==================================================
-"If we took the exact same SantaLucia parameters and fed them into a classical
-non-linear ML model, would it detect non-NN effects as well as the quantum circuit?"
-
-This script builds a CLASSICAL feature vector from the SAME physical inputs
-(SantaLucia ΔG°, ViennaRNA structure) and tests it on BOTH tasks:
-  - Task A: ΔG° regression (Exp 1A equivalent)
-  - Task B: Structural classification (Exp 1C equivalent)
-
-If classical ML matches quantum on both → paper needs major reframing.
-If classical ML matches on regression but fails classification → STRONG result.
-If quantum beats classical on both → ideal but unlikely at 8-mer scale.
-
-Usage:
-  python reviewer_fix2_classical_baseline.py --n-seqs-regression 5000 --n-pairs 200
-"""
+Classical ML Baseline Comparison
 
 import sys
 import os
