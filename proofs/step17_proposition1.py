@@ -1,4 +1,4 @@
-"""Step 17 -- Proposition 1: Encoding-Mutation Isomorphism.
+"""Proposition 1: Encoding-Mutation Isomorphism.
 
 Formal claim:
   The 2-bit encoding A=00, T=01, G=10, C=11 defines a Hamming metric on
