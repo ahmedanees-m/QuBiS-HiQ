@@ -1,10 +1,3 @@
-{
-  "description": "CORRECTED verified experimental DNA duplex Tm data from Oliveira et al. 2020",
-  "corrections": [
-    "Scaffold corrected to CGACGTGC[NNN]ATGTGCTG (19 nt) from page 8275",
-    "Buffer corrected to 50 mM NaCl (not 100 mM)",
-    "Strand concentration corrected to 1.0 \u00b5M total (not 4 \u00b5M each)"
-  ],
   "source": {
     "authors": "Oliveira, L.M., Long, A.S., Brown, T., Fox, K.R. & Weber, G.",
     "title": "Melting temperature measurement and mesoscopic evaluation of single, double and triple DNA mismatches",
