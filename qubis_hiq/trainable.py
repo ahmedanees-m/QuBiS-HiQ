@@ -1,5 +1,4 @@
-"""Layer 4: Trainable local rotations with parameter sharing.
-Reduces parameters from ~96 to ~40 for 16-qubit circuit."""
+"""Layer 4: Trainable local rotations with parameter sharing."""
 import numpy as np
 from qiskit import QuantumCircuit
 from qiskit.circuit import ParameterVector
