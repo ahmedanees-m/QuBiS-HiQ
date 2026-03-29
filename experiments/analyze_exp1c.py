@@ -1,4 +1,4 @@
-"""Re-analysis of Exp 1C with structural labels and base-only features."""
+Analysis of Exp 1C with structural labels and base-only features.
 import numpy as np, json, warnings
 warnings.filterwarnings('ignore')
 from sklearn.svm import SVC
