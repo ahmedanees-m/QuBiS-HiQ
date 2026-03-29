@@ -1,4 +1,4 @@
-"""Step 19 -- Proposition 3: Interferometric Information Gain.
+"""Proposition 3: Interferometric Information Gain.
 
 Formal claim:
   After the CX + Ry(theta_s) stacking layer applied to qubit pair (a, b)
