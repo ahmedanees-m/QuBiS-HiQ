@@ -1,5 +1,4 @@
-"""ViennaRNA interface for secondary structure prediction.
-Falls back to simple heuristic if ViennaRNA not installed."""
+"""ViennaRNA interface for secondary structure prediction."""
 from typing import List, Tuple, Optional
 import warnings
 
