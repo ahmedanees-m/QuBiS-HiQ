@@ -4,7 +4,7 @@
 # Quantum
 qiskit>=1.3.0,<3.0
 qiskit-aer>=0.15.0
-qiskit-ibm-runtime>=0.41.0   # Hardware experiments only
+qiskit-ibm-runtime>=0.41.0  # Hardware experiments only
 
 # Scientific
 numpy>=1.24.0
@@ -13,8 +13,8 @@ scikit-learn>=1.3.0
 
 # Visualisation
 matplotlib>=3.7.0
-umap-learn>=0.5.4             
+umap-learn>=0.5.4
 
 # RNA structure (Exp 1C only)
 # ViennaRNA must be installed separately:
-#   conda install -c bioconda viennarna
+# conda install -c bioconda viennarna
