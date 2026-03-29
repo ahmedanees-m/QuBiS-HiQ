@@ -1,10 +1,6 @@
 """Layer 1: Deterministic orthogonal nucleotide encoding.
 A=|00⟩, T/U=|01⟩, G=|10⟩, C=|11⟩ mapped to Ry rotations.
 
-FIX (v2): Replaced X gates with Ry gates so qubits are placed in genuine
-superpositions with non-zero Z-axis components.  X gates produced pure
-computational-basis states whose Z-observable is destroyed by the final
-Hadamard; Ry encoding keeps the Z information alive for direct Z-measurement.
 
   bit=0  →  Ry(π/3):  |ψ⟩ = √3/2|0⟩ + 1/2|1⟩,  ⟨Z⟩ = +0.5
   bit=1  →  Ry(2π/3): |ψ⟩ = 1/2|0⟩ + √3/2|1⟩,  ⟨Z⟩ = −0.5
