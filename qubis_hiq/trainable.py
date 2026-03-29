@@ -6,51 +6,62 @@ from qiskit.circuit import ParameterVector
 PURINES = {"A", "G"}
 PYRIMIDINES = {"T", "C", "U"}
 
+
 def get_param_group(qubit_idx: int, sequence: str) -> int:
-    """Determine shared parameter group for a qubit.
-    Groups: purine_q0(0), purine_q1(1), pyrimidine_q0(2), pyrimidine_q1(3),
-            5prime_mod(4), 3prime_mod(5) → total 6 base groups × 2 (Rx,Rz) = 12 params."""
-    nuc_idx = qubit_idx // 2
-    is_first_qubit = (qubit_idx % 2 == 0)
-    nuc = sequence[nuc_idx].upper()
-    is_purine = nuc in PURINES
-    N = len(sequence)
-    is_5prime = nuc_idx < N // 2
+        """Map a qubit index to one of four shared parameter groups.
 
-    if is_purine and is_first_qubit: base = 0
-    elif is_purine and not is_first_qubit: base = 1
-    elif not is_purine and is_first_qubit: base = 2
-    else: base = 3
-    arm_offset = 4 if is_5prime else 5
-    return base  # Simplified: 4 groups. Arm modifier added as separate parameter.
+            Groups are based on nucleotide type (purine/pyrimidine) and which of the
+                two qubits within the 2-qubit nucleotide register the index refers to:
+                        0: purine,     first qubit  (q0)
+                                1: purine,     second qubit (q1)
+                                        2: pyrimidine, first qubit  (q0)
+                                                3: pyrimidine, second qubit (q1)
+                                                    """
+        nuc_idx = qubit_idx // 2
+        is_first_qubit = (qubit_idx % 2 == 0)
+        nuc = sequence[nuc_idx].upper()
+        is_purine = nuc in PURINES
 
-def apply_trainable_layer(qc: QuantumCircuit, sequence: str,
-                           params: np.ndarray = None):
-    """Layer 4: Rx/Rz on all qubits with parameter sharing.
-    If params is None, creates a ParameterVector for variational optimization."""
-    N = len(sequence)
-    n_qubits = 2 * N
-    n_groups = 6  # 4 nucleotide-type + 2 arm-position
-    
+    if is_purine and is_first_qubit:
+                return 0
+elif is_purine and not is_first_qubit:
+            return 1
+elif not is_purine and is_first_qubit:
+            return 2
+else:
+            return 3
+
+
+def apply_trainable_layer(qc: QuantumCircuit, sequence: str, params: np.ndarray = None):
+        """Layer 4: Rx/Rz on all qubits with parameter sharing.
+
+            Parameters are shared across four nucleotide-type groups (0-3) plus two
+                arm-position groups (4=5' arm, 5=3' arm).  Total: 6 groups x 2 rotations
+                    (Rx, Rz) = 12 parameters.
+
+                        If params is None, returns a ParameterVector for variational optimisation.
+                            Otherwise applies concrete float values from the supplied array.
+                                """
+        N = len(sequence)
+        n_qubits = 2 * N
+        n_groups = 6  # 4 nucleotide-type + 2 arm-position
+
     if params is None:
-        # Create parameterized circuit for training
-        pv = ParameterVector("θ_train", 2 * n_groups)  # Rx and Rz per group
-        for i in range(n_qubits):
-            group = get_param_group(i, sequence)
-            arm = 4 if (i // 2) < N // 2 else 5
-            qc.rx(pv[2*group], i)
-            qc.rz(pv[2*group+1], i)
-            # Arm modifier
-            qc.rx(pv[2*arm], i)
-            qc.rz(pv[2*arm+1], i)
-        return pv
-    else:
-        # Apply with concrete parameter values
-        for i in range(n_qubits):
-            group = get_param_group(i, sequence)
-            arm = 4 if (i // 2) < N // 2 else 5
-            qc.rx(float(params[2*group]), i)
-            qc.rz(float(params[2*group+1]), i)
-            qc.rx(float(params[2*arm]), i)
-            qc.rz(float(params[2*arm+1]), i)
-        return None
+                pv = ParameterVector("theta_train", 2 * n_groups)
+                for i in range(n_qubits):
+                                group = get_param_group(i, sequence)
+                                arm = 4 if (i // 2) < N // 2 else 5
+                                qc.rx(pv[2 * group], i)
+                                qc.rz(pv[2 * group + 1], i)
+                                qc.rx(pv[2 * arm], i)
+                                qc.rz(pv[2 * arm + 1], i)
+                            return pv
+else:
+            for i in range(n_qubits):
+                            group = get_param_group(i, sequence)
+                            arm = 4 if (i // 2) < N // 2 else 5
+                            qc.rx(float(params[2 * group]), i)
+                            qc.rz(float(params[2 * group + 1]), i)
+                            qc.rx(float(params[2 * arm]), i)
+                            qc.rz(float(params[2 * arm + 1]), i)
+                        return None
