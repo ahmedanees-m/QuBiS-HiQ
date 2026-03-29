@@ -1,0 +1,54 @@
+{
+  "regression": {
+    "Ridge_Rich": {
+      "r2_mean": 0.9656,
+      "r2_std": 0.0017
+    },
+    "RF-100_Rich": {
+      "r2_mean": 0.9791,
+      "r2_std": 0.0015
+    },
+    "SVR-RBF_Rich": {
+      "r2_mean": 0.9927,
+      "r2_std": 0.002
+    },
+    "Ridge_Minimal": {
+      "r2_mean": 0.9629,
+      "r2_std": 0.0018
+    },
+    "RF-100_Minimal": {
+      "r2_mean": 0.96,
+      "r2_std": 0.001
+    },
+    "SVR-RBF_Minimal": {
+      "r2_mean": 0.9951,
+      "r2_std": 0.0013
+    }
+  },
+  "classification": {
+    "SVM-RBF_Rich_WITH_struct": {
+      "acc_mean": 1.0,
+      "acc_std": 0.0
+    },
+    "RF-100_Rich_WITH_struct": {
+      "acc_mean": 1.0,
+      "acc_std": 0.0
+    },
+    "SVM-RBF_Rich_NO_struct": {
+      "acc_mean": 1.0,
+      "acc_std": 0.0
+    },
+    "RF-100_Rich_NO_struct": {
+      "acc_mean": 1.0,
+      "acc_std": 0.0
+    },
+    "SVM-RBF_Minimal_WITH_struct": {
+      "acc_mean": 1.0,
+      "acc_std": 0.0
+    },
+    "RF-100_Minimal_WITH_struct": {
+      "acc_mean": 1.0,
+      "acc_std": 0.0
+    }
+  }
+}
