@@ -1,4 +1,4 @@
-"""Step 18 -- Proposition 2: Boltzmann-Sigmoid Uniqueness.
+"""Proposition 2: Boltzmann-Sigmoid Uniqueness.
 
 Formal claim:
   The angle mapping theta(dG) = pi * sigma(-beta * dG),
