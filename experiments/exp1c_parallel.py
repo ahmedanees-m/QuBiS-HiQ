@@ -1,5 +1,4 @@
 """Parallelised Exp 1C: Non-Nearest-Neighbor Effect Detection.
-Uses fixed circuit v2 (Ry encoding, CX+Ry stacking, no final Hadamard).
 
 Strategy: Generate pairs where |delta_dg| < 1.0 AND struct1 != struct2.
 Parallelises both pair generation and feature extraction.
