@@ -1,12 +1,6 @@
 {
   "experiment": "Exp 1E: Experimental Tm validation (CORRECTED)",
-  "corrections_applied": [
-    "Scaffold corrected from TGACTCGACATCC[NNN]GCTACAA (23nt, from Fig.11/Chakraborty) to CGACGTGC[NNN]ATGTGCTG (19nt, from page 8275)",
-    "Buffer corrected from 100mM NaCl to 50mM NaCl",
-    "Strand concentration corrected from 4\u00b5M each to 1.0\u00b5M total",
-    "Qubits corrected from 46 to 38",
-    "Feature dimension corrected from 135 to 111"
-  ],
+
   "dataset": {
     "source": "Oliveira et al. 2020 Chemical Science",
     "doi": "10.1039/d0sc01700k",
