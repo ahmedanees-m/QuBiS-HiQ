@@ -1,0 +1,18 @@
+{
+  "description": "SantaLucia nearest-neighbour stacking free energies (kcal/mol)",
+  "source": "SantaLucia, J. Jr. & Hicks, D. Annu. Rev. Biophys. Biomol. Struct. 33, 415-440 (2004)",
+  "units": "kcal/mol",
+  "convention": "5'→3' / 3'→5' (top strand dinucleotide)",
+  "parameters": {
+    "AA": -1.00, "AT": -0.88, "AG": -1.28, "AC": -1.44,
+    "TA": -0.58, "TT": -1.00, "TG": -1.45, "TC": -1.30,
+    "GA": -1.30, "GT": -1.44, "GG": -1.84, "GC": -3.42,
+    "CA": -1.45, "CT": -1.28, "CG": -2.17, "CC": -1.84
+  },
+  "initiation": {
+    "init_GC": 0.98,
+    "init_AT": 2.30
+  },
+  "beta_mol_per_kcal": 1.687,
+  "note": "beta = 1 / (RT) at 37°C = 1 / 0.593 ≈ 1.687 mol/kcal"
+}

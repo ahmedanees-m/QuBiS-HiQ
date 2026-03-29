@@ -1,0 +1,422 @@
+{
+  "description": "CORRECTED verified experimental DNA duplex Tm data from Oliveira et al. 2020",
+  "corrections": [
+    "Scaffold corrected to CGACGTGC[NNN]ATGTGCTG (19 nt) from page 8275",
+    "Buffer corrected to 50 mM NaCl (not 100 mM)",
+    "Strand concentration corrected to 1.0 \u00b5M total (not 4 \u00b5M each)"
+  ],
+  "source": {
+    "authors": "Oliveira, L.M., Long, A.S., Brown, T., Fox, K.R. & Weber, G.",
+    "title": "Melting temperature measurement and mesoscopic evaluation of single, double and triple DNA mismatches",
+    "journal": "Chemical Science",
+    "volume": 11,
+    "pages": "8273-8287",
+    "year": 2020,
+    "doi": "10.1039/d0sc01700k",
+    "pmc": "PMC8163305",
+    "supplementary_table": "Table S1",
+    "supplementary_url": "https://www.rsc.org/suppdata/d0/sc/d0sc01700k/d0sc01700k1.pdf",
+    "license": "CC-BY (Open Access)",
+    "scaffold_source": "Page 8275, 'Sequence decomposition and notation'",
+    "buffer_source": "Page 8275, experimental conditions"
+  },
+  "conditions": {
+    "buffer": "50 mM NaCl, 10 mM sodium phosphate, pH 7.4",
+    "method": "UV melting (260 nm absorbance vs temperature)",
+    "strand_concentration": "1.0 \u00b5M total",
+    "scaffold_top": "5'-CGACGTGC[N1N3N5]ATGTGCTG-3'",
+    "scaffold_bottom": "3'-GCTGCACG[N2N4N6]TACACGAC-5'",
+    "sequence_length_nt": 19
+  },
+  "n_canonical_duplexes": 64,
+  "tm_range_C": [
+    60.7,
+    69.3
+  ],
+  "duplexes": [
+    {
+      "centre": "GCG/CGC",
+      "full_sequence": "CGACGTGCGCGATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 69.3
+    },
+    {
+      "centre": "CGC/GCG",
+      "full_sequence": "CGACGTGCCGCATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 69.1
+    },
+    {
+      "centre": "GGC/CCG",
+      "full_sequence": "CGACGTGCGGCATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 68.9
+    },
+    {
+      "centre": "GCC/CGG",
+      "full_sequence": "CGACGTGCGCCATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 68.7
+    },
+    {
+      "centre": "CGG/GCC",
+      "full_sequence": "CGACGTGCCGGATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 68.2
+    },
+    {
+      "centre": "CCG/GGC",
+      "full_sequence": "CGACGTGCCCGATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 68.2
+    },
+    {
+      "centre": "GGG/CCC",
+      "full_sequence": "CGACGTGCGGGATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 67.7
+    },
+    {
+      "centre": "CCC/GGG",
+      "full_sequence": "CGACGTGCCCCATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 67.7
+    },
+    {
+      "centre": "TGC/ACG",
+      "full_sequence": "CGACGTGCTGCATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 67.5
+    },
+    {
+      "centre": "GAC/CTG",
+      "full_sequence": "CGACGTGCGACATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 67.2
+    },
+    {
+      "centre": "GCA/CGT",
+      "full_sequence": "CGACGTGCGCAATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 67.1
+    },
+    {
+      "centre": "TCG/AGC",
+      "full_sequence": "CGACGTGCTCGATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 66.6
+    },
+    {
+      "centre": "GGA/CCT",
+      "full_sequence": "CGACGTGCGGAATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 66.6
+    },
+    {
+      "centre": "CGA/GCT",
+      "full_sequence": "CGACGTGCCGAATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 66.5
+    },
+    {
+      "centre": "CAG/GTC",
+      "full_sequence": "CGACGTGCCAGATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 66.5
+    },
+    {
+      "centre": "GAG/CTC",
+      "full_sequence": "CGACGTGCGAGATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 66.5
+    },
+    {
+      "centre": "GCT/CGA",
+      "full_sequence": "CGACGTGCGCTATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 66.4
+    },
+    {
+      "centre": "CAC/GTG",
+      "full_sequence": "CGACGTGCCACATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 66.4
+    },
+    {
+      "centre": "GTC/CAG",
+      "full_sequence": "CGACGTGCGTCATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 66.4
+    },
+    {
+      "centre": "GTG/CAC",
+      "full_sequence": "CGACGTGCGTGATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 66.2
+    },
+    {
+      "centre": "CGT/GCA",
+      "full_sequence": "CGACGTGCCGTATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 66.2
+    },
+    {
+      "centre": "AGC/TCG",
+      "full_sequence": "CGACGTGCAGCATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 66.1
+    },
+    {
+      "centre": "TCC/AGG",
+      "full_sequence": "CGACGTGCTCCATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 66.1
+    },
+    {
+      "centre": "CCA/GGT",
+      "full_sequence": "CGACGTGCCCAATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 66.0
+    },
+    {
+      "centre": "AGG/TCC",
+      "full_sequence": "CGACGTGCAGGATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 66.0
+    },
+    {
+      "centre": "GGT/CCA",
+      "full_sequence": "CGACGTGCGGTATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 66.0
+    },
+    {
+      "centre": "CTG/GAC",
+      "full_sequence": "CGACGTGCCTGATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 65.9
+    },
+    {
+      "centre": "CTC/GAG",
+      "full_sequence": "CGACGTGCCTCATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 65.8
+    },
+    {
+      "centre": "TGG/ACC",
+      "full_sequence": "CGACGTGCTGGATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 65.5
+    },
+    {
+      "centre": "ACG/TGC",
+      "full_sequence": "CGACGTGCACGATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 65.4
+    },
+    {
+      "centre": "ACC/TGG",
+      "full_sequence": "CGACGTGCACCATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 65.2
+    },
+    {
+      "centre": "TTG/AAC",
+      "full_sequence": "CGACGTGCTTGATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 64.9
+    },
+    {
+      "centre": "ATC/TAG",
+      "full_sequence": "CGACGTGCATCATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 64.8
+    },
+    {
+      "centre": "GAA/CTT",
+      "full_sequence": "CGACGTGCGAAATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 64.7
+    },
+    {
+      "centre": "CAA/GTT",
+      "full_sequence": "CGACGTGCCAAATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 64.5
+    },
+    {
+      "centre": "AAC/TTG",
+      "full_sequence": "CGACGTGCAACATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 64.5
+    },
+    {
+      "centre": "CCT/GGA",
+      "full_sequence": "CGACGTGCCCTATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 64.4
+    },
+    {
+      "centre": "TTC/AAG",
+      "full_sequence": "CGACGTGCTTCATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 64.4
+    },
+    {
+      "centre": "TGA/ACT",
+      "full_sequence": "CGACGTGCTGAATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 64.4
+    },
+    {
+      "centre": "TCA/AGT",
+      "full_sequence": "CGACGTGCTCAATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 64.2
+    },
+    {
+      "centre": "AGA/TCT",
+      "full_sequence": "CGACGTGCAGAATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 64.2
+    },
+    {
+      "centre": "GAT/CTA",
+      "full_sequence": "CGACGTGCGATATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 64.1
+    },
+    {
+      "centre": "GTA/CAT",
+      "full_sequence": "CGACGTGCGTAATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 63.9
+    },
+    {
+      "centre": "AAG/TTC",
+      "full_sequence": "CGACGTGCAAGATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 63.8
+    },
+    {
+      "centre": "ATG/TAC",
+      "full_sequence": "CGACGTGCATGATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 63.6
+    },
+    {
+      "centre": "GTT/CAA",
+      "full_sequence": "CGACGTGCGTTATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 63.6
+    },
+    {
+      "centre": "TAG/ATC",
+      "full_sequence": "CGACGTGCTAGATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 63.6
+    },
+    {
+      "centre": "TAC/ATG",
+      "full_sequence": "CGACGTGCTACATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 63.6
+    },
+    {
+      "centre": "CTA/GAT",
+      "full_sequence": "CGACGTGCCTAATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 63.6
+    },
+    {
+      "centre": "TCT/AGA",
+      "full_sequence": "CGACGTGCTCTATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 63.0
+    },
+    {
+      "centre": "CAT/GTA",
+      "full_sequence": "CGACGTGCCATATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 63.0
+    },
+    {
+      "centre": "ACA/TGT",
+      "full_sequence": "CGACGTGCACAATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 63.0
+    },
+    {
+      "centre": "CTT/GAA",
+      "full_sequence": "CGACGTGCCTTATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 62.9
+    },
+    {
+      "centre": "AGT/TCA",
+      "full_sequence": "CGACGTGCAGTATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 62.7
+    },
+    {
+      "centre": "AAA/TTT",
+      "full_sequence": "CGACGTGCAAAATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 62.4
+    },
+    {
+      "centre": "TGT/ACA",
+      "full_sequence": "CGACGTGCTGTATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 62.1
+    },
+    {
+      "centre": "ATA/TAT",
+      "full_sequence": "CGACGTGCATAATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 61.8
+    },
+    {
+      "centre": "TAA/ATT",
+      "full_sequence": "CGACGTGCTAAATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 61.6
+    },
+    {
+      "centre": "TAT/ATA",
+      "full_sequence": "CGACGTGCTATATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 61.3
+    },
+    {
+      "centre": "AAT/TTA",
+      "full_sequence": "CGACGTGCAATATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 61.2
+    },
+    {
+      "centre": "ATT/TAA",
+      "full_sequence": "CGACGTGCATTATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 60.7
+    },
+    {
+      "centre": "ACT/TGA",
+      "full_sequence": "CGACGTGCACTATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 60.7
+    },
+    {
+      "centre": "TTA/AAT",
+      "full_sequence": "CGACGTGCTTAATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 61.1
+    },
+    {
+      "centre": "TTT/AAA",
+      "full_sequence": "CGACGTGCTTTATGTGCTG",
+      "length_nt": 19,
+      "exp_Tm_C": 61.0
+    }
+  ]
+}
