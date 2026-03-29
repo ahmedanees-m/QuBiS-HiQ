@@ -1,6 +1,6 @@
 """Experiment 1D: IBM Hardware Validation (Steps 13-16).
 Uses ibm_fez (Heron r2, 156 qubits) and FakeFez for simulator baseline.
-stem_pairs=[] for all sequences (no ViennaRNA -- HPC unavailable during run).
+stem_pairs=[] for all sequences.
 Circuits use encoding + stacking layers (no WC) -- valid hardware fidelity test.
 
 Scaled parameters:
