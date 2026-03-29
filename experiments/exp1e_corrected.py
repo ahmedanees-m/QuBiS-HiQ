@@ -1,20 +1,6 @@
 """
 EXP 1E CORRECTED: Oliveira et al. 2020 — VERIFIED SCAFFOLD AND CONDITIONS
 ============================================================================
-CORRECTIONS APPLIED:
-  1. Scaffold: 5'-CGACGTGC[N1N3N5]ATGTGCTG-3' (19 nt, NOT 23 nt)
-     Source: Page 8275, "Sequence decomposition and notation"
-  2. Buffer: 50 mM NaCl, 10 mM sodium phosphate, pH 7.4 (NOT 100 mM NaCl)
-     Source: Page 8275, experimental conditions
-  3. Strand concentration: 1.0 µM total (NOT 4 µM each)
-     Source: Page 8275
-  4. Qubits: 38 (NOT 46) → Feature dim: B = 6(19) - 3 = 111 (NOT 135)
-
-The WRONG scaffold 'TGACTCGACATCC[NNN]GCTACAA' comes from Figure 11 caption
-on page 8283, which references Chakraborty et al. 2017 (their ref 11) for
-Rad4 binding affinity comparison — NOT the melting experiment.
-
-Tm values from Table S1 remain correct and verified.
 """
 
 import numpy as np
