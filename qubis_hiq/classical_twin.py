@@ -1,5 +1,4 @@
-"""Classical twin: compute same 49 features without quantum interference.
-This is the critical ablation baseline — if quantum doesn't beat this, no paper."""
+"""Classical twin: compute same 49 features without quantum interference"""
 import numpy as np
 from typing import List, Tuple, Optional
 from .encoding import NUC_MAP
