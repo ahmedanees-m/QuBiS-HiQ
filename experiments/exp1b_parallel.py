@@ -1,5 +1,4 @@
 """Parallelised Exp 1B: Five-Way Ablation Study.
-Uses the v2 fixed circuit (Ry encoding, CX+Ry stacking, no final Hadamard).
 """
 import sys, os, json, time
 sys.path.insert(0, '/ibdc-scratch2/home/IBDCHPCU0095/qubis-hiq')
