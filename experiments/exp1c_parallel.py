@@ -1,224 +1,203 @@
-"""Parallelised Exp 1C: Non-Nearest-Neighbor Effect Detection.
+"""Exp 1C: Non-nearest-neighbor effect detection via structural classification.
 
-Strategy: Generate pairs where |delta_dg| < 1.0 AND struct1 != struct2.
-Parallelises both pair generation and feature extraction.
-"""
-import sys, os, json, time
-sys.path.insert(0, '/ibdc-scratch2/home/IBDCHPCU0095/qubis-hiq')
+Generates composition-matched pairs where sequences differ only in secondary
+structure (not dG°), then classifies them using quantum feature vectors.
+
+Usage:
+  python experiments/exp1c_parallel.py [--n-pairs 200]
+  """
+import sys, os, json, time, argparse
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 import numpy as np
 from multiprocessing import Pool, cpu_count
 from datetime import datetime
 from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_score
+from sklearn.preprocessing import StandardScaler
 from qiskit.quantum_info import Statevector
-from qubis.santalucia import compute_total_dg
-from qubis.circuit_builder import build_circuit
-from qubis.vienna_interface import predict_structure
-from qubis.feature_extraction import extract_feature_vector
+
+from qubis_hiq.santalucia import compute_total_dg
+from qubis_hiq.circuit_builder import build_circuit
+from qubis_hiq.vienna_interface import predict_structure
+from qubis_hiq.feature_extraction import extract_feature_vector
+
+OUT_DIR = os.path.join(os.path.dirname(__file__), '..', 'results', 'exp1c')
 
 
 def try_generate_pair_8nt(seed):
-    """Try to generate one valid 8-nt pair with the given seed.
+        """Try to generate one valid composition-matched 8-nt pair.
 
-    Returns (seq1, seq2, struct1, struct2, dg1, dg2) or None.
-    A valid pair has: different structures AND |dg1-dg2| < 1.0 kcal/mol.
-    """
-    rng = np.random.RandomState(seed)
-    for _ in range(60):
-        seq1 = ''.join(rng.choice(list('ATGC'), 8))
-        # Generate composition-matched permutation
-        chars = list(seq1)
-        rng.shuffle(chars)
-        seq2 = ''.join(chars)
-        if seq2 == seq1:
-            continue
-        try:
-            struct1, pairs1 = predict_structure(seq1)
-            struct2, pairs2 = predict_structure(seq2)
-            if struct1 == struct2:
-                continue
-            # Require at least one sequence to have structure
-            if len(pairs1) == 0 and len(pairs2) == 0:
-                continue
-            dg1 = compute_total_dg(seq1)
-            dg2 = compute_total_dg(seq2)
-            if abs(dg1 - dg2) < 1.0:
-                return (seq1, seq2, struct1, struct2, float(dg1), float(dg2), 8)
-        except Exception:
-            continue
-    return None
+            Returns (seq1, seq2, struct1, struct2, dg1, dg2, 8) or None.
+                Valid pair: different structures AND |dg1 - dg2| < 1.0 kcal/mol.
+                    """
+        rng = np.random.RandomState(seed)
+        for _ in range(60):
+                    seq1 = ''.join(rng.choice(list('ATGC'), 8))
+                    chars = list(seq1)
+                    rng.shuffle(chars)
+                    seq2 = ''.join(chars)
+                    if seq2 == seq1:
+                                    continue
+                                try:
+                                                struct1, pairs1 = predict_structure(seq1)
+                                                struct2, pairs2 = predict_structure(seq2)
+                                                if struct1 == struct2:
+                                                                    continue
+                                                                if len(pairs1) == 0 and len(pairs2) == 0:
+                                                                                    continue
+                                                                                dg1 = compute_total_dg(seq1)
+                                                dg2 = compute_total_dg(seq2)
+                                                if abs(dg1 - dg2) < 1.0:
+                                                                    return (seq1, seq2, struct1, struct2, float(dg1), float(dg2), 8)
+                    except Exception:
+                                    continue
+                            return None
 
 
 def try_generate_pair_10nt(seed):
-    """Fallback: try to generate one valid 10-nt pair."""
-    rng = np.random.RandomState(seed + 100000)
-    for _ in range(60):
-        seq1 = ''.join(rng.choice(list('ATGC'), 10))
-        chars = list(seq1)
-        rng.shuffle(chars)
-        seq2 = ''.join(chars)
-        if seq2 == seq1:
-            continue
-        try:
-            struct1, pairs1 = predict_structure(seq1)
-            struct2, pairs2 = predict_structure(seq2)
-            if struct1 == struct2:
-                continue
-            if len(pairs1) == 0 and len(pairs2) == 0:
-                continue
-            dg1 = compute_total_dg(seq1)
-            dg2 = compute_total_dg(seq2)
-            if abs(dg1 - dg2) < 1.5:
-                return (seq1, seq2, struct1, struct2, float(dg1), float(dg2), 10)
-        except Exception:
-            continue
-    return None
+        """Fallback: try to generate one valid composition-matched 10-nt pair."""
+        rng = np.random.RandomState(seed + 100000)
+        for _ in range(60):
+                    seq1 = ''.join(rng.choice(list('ATGC'), 10))
+                    chars = list(seq1)
+                    rng.shuffle(chars)
+                    seq2 = ''.join(chars)
+                    if seq2 == seq1:
+                                    continue
+                                try:
+                                                struct1, pairs1 = predict_structure(seq1)
+                                                struct2, pairs2 = predict_structure(seq2)
+                                                if struct1 == struct2:
+                                                                    continue
+                                                                if len(pairs1) == 0 and len(pairs2) == 0:
+                                                                                    continue
+                                                                                dg1 = compute_total_dg(seq1)
+                                                dg2 = compute_total_dg(seq2)
+                                                if abs(dg1 - dg2) < 1.5:
+                                                                    return (seq1, seq2, struct1, struct2, float(dg1), float(dg2), 10)
+                    except Exception:
+                                    continue
+                            return None
 
 
 def extract_qf(args):
-    """Extract quantum features for (seq, stem_pairs)."""
-    seq, stem_pairs = args
-    params = np.zeros(12)
-    qc = build_circuit(seq, stem_pairs, params, include_measurement=False)
-    sv = Statevector.from_instruction(qc)
-    n_q = 2 * len(seq)
-    counts = {(format(k, '0{}b'.format(n_q)) if isinstance(k, int) else str(k)): v
-              for k, v in sv.sample_counts(4096).items()}
-    return extract_feature_vector(counts, len(seq), stem_pairs)
+        """Extract quantum features for (seq, stem_pairs)."""
+        seq, stem_pairs = args
+        qc = build_circuit(seq, stem_pairs, np.zeros(12), include_measurement=False)
+        sv = Statevector.from_instruction(qc)
+        n_q = 2 * len(seq)
+        counts = {(format(k, f'0{n_q}b') if isinstance(k, int) else str(k)): v
+                  for k, v in sv.sample_counts(4096).items()}
+        return extract_feature_vector(counts, len(seq), stem_pairs)
 
 
 def get_stem_pairs_for_seq(seq):
-    """Get stem pairs for a sequence (used serially before Pool)."""
-    _, sp = predict_structure(seq)
-    return (seq, sp)
+        _, sp = predict_structure(seq)
+        return (seq, sp)
 
 
 def run(n_pairs=200):
-    out_dir = '/ibdc-scratch2/home/IBDCHPCU0095/qubis-hiq/experiments/paper1/results/exp1c'
-    os.makedirs(out_dir, exist_ok=True)
-    n_cpu = cpu_count()
+        os.makedirs(OUT_DIR, exist_ok=True)
+        n_cpu = cpu_count()
+        print(f'[{datetime.now()}] Exp 1C: {n_pairs} pairs | {n_cpu} CPUs')
 
-    print("[{}] Exp 1C: {} pairs | {} CPUs | fixed circuit v2".format(
-        datetime.now(), n_pairs, n_cpu))
-
-    # ── Step 1: Generate composition-matched pairs in parallel ──────────
-    print("Step 1: Generating composition-matched 8-nt pairs (parallel)...")
+    # Step 1: generate composition-matched pairs
+        print('Step 1: Generating composition-matched 8-nt pairs...')
     t0 = time.time()
-    seeds_8nt = list(range(n_pairs * 25))
     with Pool(n_cpu) as pool:
-        raw_8nt = pool.map(try_generate_pair_8nt, seeds_8nt)
-    valid_pairs = [r for r in raw_8nt if r is not None]
-    print("  8-nt pairs found: {}/{} in {:.1f}s".format(
-        len(valid_pairs), n_pairs, time.time()-t0))
+                raw_8nt = pool.map(try_generate_pair_8nt, range(n_pairs * 25))
+            valid_pairs = [r for r in raw_8nt if r is not None]
+    print(f'  8-nt pairs: {len(valid_pairs)}/{n_pairs} in {time.time()-t0:.1f}s')
 
-    # Fallback to 10-nt if insufficient pairs
     if len(valid_pairs) < max(20, n_pairs // 2):
-        print("  Insufficient 8-nt pairs. Trying 10-nt sequences...")
-        t1 = time.time()
-        seeds_10nt = list(range(n_pairs * 25))
-        with Pool(n_cpu) as pool:
-            raw_10nt = pool.map(try_generate_pair_10nt, seeds_10nt)
-        valid_10nt = [r for r in raw_10nt if r is not None]
-        print("  10-nt pairs found: {} in {:.1f}s".format(len(valid_10nt), time.time()-t1))
-        valid_pairs = valid_pairs + valid_10nt
+                print('  Insufficient 8-nt pairs — trying 10-nt fallback...')
+                with Pool(n_cpu) as pool:
+                                raw_10nt = pool.map(try_generate_pair_10nt, range(n_pairs * 25))
+                            valid_pairs += [r for r in raw_10nt if r is not None]
 
     valid_pairs = valid_pairs[:n_pairs]
     n_found = len(valid_pairs)
-    seq_len = valid_pairs[0][6] if n_found > 0 else 8
-    print("Total valid pairs: {} (seq_len={})".format(n_found, seq_len))
-
+    print(f'  Total valid pairs: {n_found}')
     if n_found < 10:
-        print("ERROR: Too few pairs found. Cannot continue reliably.")
-        with open('{}/exp1c_results.json'.format(out_dir), 'w') as f:
-            json.dump({'error': 'too_few_pairs', 'n_found': n_found}, f, indent=2)
-        return
+                print('ERROR: Too few pairs. Cannot continue.')
+        with open(os.path.join(OUT_DIR, 'exp1c_results.json'), 'w') as f:
+                        json.dump({'error': 'too_few_pairs', 'n_found': n_found}, f, indent=2)
+                    return
 
-    # ── Step 2: Get stem pairs for all sequences (quick, serial or parallel) ──
-    print("Step 2: Computing secondary structures...")
+    # Step 2: get stem pairs for all sequences
+    print('Step 2: Computing secondary structures...')
     t2 = time.time()
-    all_seq_list = []
-    for p in valid_pairs:
-        all_seq_list.append(p[0])  # seq1
-        all_seq_list.append(p[1])  # seq2
-
+    all_seqs = [seq for p in valid_pairs for seq in (p[0], p[1])]
     with Pool(n_cpu) as pool:
-        seq_sp_pairs = pool.map(get_stem_pairs_for_seq, all_seq_list)
-    print("  Done in {:.1f}s".format(time.time()-t2))
+                seq_sp_list = pool.map(get_stem_pairs_for_seq, all_seqs)
+    print(f'  Done in {time.time()-t2:.1f}s')
 
-    # ── Step 3: Extract quantum features in parallel ──────────────────
-    print("Step 3: Extracting quantum features ({} sequences)...".format(len(seq_sp_pairs)))
+    # Step 3: extract quantum features
+    print(f'Step 3: Extracting quantum features ({len(seq_sp_list)} sequences)...')
     t3 = time.time()
     with Pool(n_cpu) as pool:
-        all_fv = pool.map(extract_qf, seq_sp_pairs)
-    print("  Done in {:.1f}s".format(time.time()-t3))
+                all_fv = pool.map(extract_qf, seq_sp_list)
+    print(f'  Done in {time.time()-t3:.1f}s')
 
-    features_a = all_fv[0::2]  # seq1 features (even indices)
-    features_b = all_fv[1::2]  # seq2 features (odd indices)
-
-    # Pad to uniform feature vector width
+    features_a = all_fv[0::2]
+    features_b = all_fv[1::2]
     max_w = max(fv.shape[0] for fv in all_fv)
     X_a = np.vstack([np.pad(fv, (0, max_w - len(fv))) for fv in features_a])
     X_b = np.vstack([np.pad(fv, (0, max_w - len(fv))) for fv in features_b])
-    X = np.vstack([X_a, X_b])
-    y = np.concatenate([np.zeros(len(features_a)), np.ones(len(features_b))])
+    X   = np.vstack([X_a, X_b])
+    y   = np.concatenate([np.zeros(len(features_a)), np.ones(len(features_b))])
 
-    # ── Step 4: SVM Classification ───────────────────────────────────
-    print("Step 4: SVM classification ({} samples x {} features)...".format(
-        X.shape[0], X.shape[1]))
-    results_svm = {}
-    for kernel in ['rbf', 'linear']:
-        svc = SVC(kernel=kernel, C=1.0, random_state=42)
-        scores = cross_val_score(svc, X, y, cv=5, scoring='accuracy')
-        results_svm[kernel] = {
-            'accuracy_mean': float(scores.mean()),
-            'accuracy_std':  float(scores.std()),
-            'success':       bool(scores.mean() > 0.70)
-        }
-        print("  SVM-{}: {:.4f} +/- {:.4f}  [{}]".format(
-            kernel.upper(), scores.mean(), scores.std(),
-            'SUCCESS' if scores.mean() > 0.70 else 'below target'))
+    # Step 4: classification
+    print(f'Step 4: Classification ({X.shape[0]} samples x {X.shape[1]} features)...')
+    sc = StandardScaler()
+    Xs = sc.fit_transform(X)
+    results_clf = {}
+    for name, clf in [
+                ('SVM-RBF',    SVC(kernel='rbf',    C=10,  random_state=42)),
+                ('SVM-Linear', SVC(kernel='linear', C=1,   random_state=42)),
+                ('RF-100',     RandomForestClassifier(n_estimators=100, random_state=42, n_jobs=-1)),
+    ]:
+                scores = cross_val_score(clf, Xs, y, cv=5, scoring='accuracy')
+        results_clf[name] = {'mean': float(scores.mean()), 'std': float(scores.std())}
+        tag = 'SUCCESS' if scores.mean() > 0.70 else 'below target'
+        print(f'  {name:<14}: {scores.mean():.4f} +/- {scores.std():.4f}  [{tag}]')
 
-    best_acc = max(v['accuracy_mean'] for v in results_svm.values())
-    best_kernel = max(results_svm, key=lambda k: results_svm[k]['accuracy_mean'])
+    best_acc    = max(v['mean'] for v in results_clf.values())
+    best_kernel = max(results_clf, key=lambda k: results_clf[k]['mean'])
 
-    # ── Step 5: Save results ─────────────────────────────────────────
+    # Step 5: save
+    np.save(os.path.join(OUT_DIR, 'features_a.npy'), X_a)
+    np.save(os.path.join(OUT_DIR, 'features_b.npy'), X_b)
     pairs_meta = [
-        {'seq1': p[0], 'seq2': p[1], 'struct1': p[2], 'struct2': p[3],
-         'dg1': p[4], 'dg2': p[5], 'seq_len': p[6]}
-        for p in valid_pairs
+                {'seq1': p[0], 'seq2': p[1], 'struct1': p[2], 'struct2': p[3],
+                          'dg1': p[4], 'dg2': p[5], 'seq_len': p[6]}
+                for p in valid_pairs
     ]
-
-    results = {
-        'experiment': '1C',
-        'n_pairs_requested': n_pairs,
-        'n_pairs_found':     n_found,
-        'seq_len':           seq_len,
-        'feature_dim':       int(max_w),
-        'circuit_version':   'v2_ry_cx_ry',
-        'svm_rbf':           results_svm['rbf'],
-        'svm_linear':        results_svm['linear'],
-        'best_accuracy':     float(best_acc),
-        'best_kernel':       best_kernel,
-        'success':           bool(best_acc > 0.70)
+    output = {
+                'experiment': '1C',
+                'n_pairs_requested': n_pairs, 'n_pairs_found': n_found,
+                'feature_dim': int(max_w), 'circuit_version': 'v2_ry_cx_ry',
+                'classifiers': results_clf,
+                'best_accuracy': float(best_acc), 'best_classifier': best_kernel,
+                'success': bool(best_acc > 0.70),
     }
+    with open(os.path.join(OUT_DIR, 'exp1c_results.json'), 'w') as f:
+                json.dump(output, f, indent=2)
+    with open(os.path.join(OUT_DIR, 'pairs_metadata.json'), 'w') as f:
+                json.dump(pairs_meta, f, indent=2)
 
-    np.save('{}/features_a.npy'.format(out_dir), X_a)
-    np.save('{}/features_b.npy'.format(out_dir), X_b)
-    with open('{}/exp1c_results.json'.format(out_dir), 'w') as f:
-        json.dump(results, f, indent=2)
-    with open('{}/pairs_metadata.json'.format(out_dir), 'w') as f:
-        json.dump(pairs_meta, f, indent=2)
-
-    print("")
-    print("=" * 55)
-    print("Best accuracy: {:.4f} (SVM-{})".format(best_acc, best_kernel.upper()))
-    print("Target >0.70: {}".format('MET' if best_acc > 0.70 else 'NOT MET'))
-    print("=" * 55)
-    print("Results saved to {}/".format(out_dir))
-    return results
+    print(f'\n{"="*55}')
+    print(f'Best accuracy: {best_acc:.4f} ({best_kernel})')
+    print(f'Target >0.70: {"MET" if best_acc > 0.70 else "NOT MET"}')
+    print(f'Results saved to {OUT_DIR}/')
+    return output
 
 
-if __name__ == "__main__":
-    n = int(sys.argv[1]) if len(sys.argv) > 1 else 200
-    run(n)
+if __name__ == '__main__':
+        parser = argparse.ArgumentParser(description='Exp 1C: structural classification.')
+    parser.add_argument('--n-pairs', type=int, default=200,
+                                                help='Number of composition-matched pairs (default: 200)')
+    args = parser.parse_args()
+    run(args.n_pairs)
