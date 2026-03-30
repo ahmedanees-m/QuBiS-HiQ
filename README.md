@@ -94,4 +94,4 @@ python proofs/proposition3.py   # 358% info gain for AA/TT
    
     - This software is freely available for academic research and reproduction of published results. Commercial use requires prior written permission from the copyright holder.
    
-    - Commercial licensing enquiries: ahmedaneesm@gmail.com; +91 90290 34496
+    - For licensing enquiries: ahmedaneesm@gmail.com; +91 90290 34496
