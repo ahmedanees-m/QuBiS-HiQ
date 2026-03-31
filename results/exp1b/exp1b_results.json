@@ -1,0 +1,11 @@
+{
+  "full": {"r2_mean": 0.23017837085509854, "r2_std": 0.410230877312673, "rank": 4},
+    "no_wc": {"r2_mean": 0.35842772949623797, "r2_std": 0.2579770085815751, "rank": 1},
+      "no_stacking": {"r2_mean": 0.3154991240631143, "r2_std": 0.23774973075458128, "rank": 2},
+        "random": {"r2_mean": -0.3711784907127974, "r2_std": 0.5729421881921133, "rank": 5},
+          "classical": {"r2_mean": 0.30033171881913534, "r2_std": 0.3111051567865458, "rank": 3},
+            "expected_ordering_holds": false,
+              "n_valid": 20,
+                "n_sequences": 20,
+                  "circuit_version": "v2_ry_cx_ry"
+                  }
