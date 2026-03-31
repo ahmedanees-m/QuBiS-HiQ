@@ -13,6 +13,6 @@
     "init_GC": 0.98,
     "init_AT": 2.30
   },
-  "beta_mol_per_kcal": 1.687,
-  "note": "beta = 1 / (RT) at 37°C = 1 / 0.593 ≈ 1.687 mol/kcal"
+  "beta_mol_per_kcal": 0.39,
+  "note": "beta = 1 / (RT) at 37\u00b0C (310K) = 0.39 mol/kcal"
 }
