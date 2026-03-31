@@ -1,4 +1,4 @@
-# Quantum interferometric detection of non-nearest-neighbor effects in DNA thermodynamics
+# Quantum interferometric detection of non-nearest-neighbour effects in DNA thermodynamics
 
 ## Overview
 
