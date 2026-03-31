@@ -108,7 +108,7 @@ python proofs/proposition3.py   # 358% info gain for AA/TT
 | Experiment | Metric | Value |
 |---|---|---|
 | Exp 1A - ΔG° regression (65,536 8-mers) | CV R² | 0.764 ± 0.055 |
-| Exp 1B - Ablation: full vs random | R² drop | 0.813 → −0.147 |
+| Exp 1B - Ablation: full vs random | R² drop | 0.813 → -0.147 |
 | Exp 1C - Structural classification | Accuracy | 100% ± 0.0% |
 | Exp 1D - IBM ibm_fez hardware (30 seqs) | Cosine similarity | 0.9970 ± 0.0005 |
 | Exp 1D - IBM ibm_torino cross-platform | Cosine similarity | 0.9948 ± 0.0015 |
