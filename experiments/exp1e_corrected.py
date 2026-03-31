@@ -1,5 +1,5 @@
 """
-EXP 1E CORRECTED: Oliveira et al. 2020 — VERIFIED SCAFFOLD AND CONDITIONS
+EXP 1E
 ============================================================================
 """
 
