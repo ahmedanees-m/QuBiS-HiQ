@@ -45,21 +45,21 @@ conda install -c bioconda viennarna
 
 ## Reproducing All Experiments
 
-### Exp 1A — ΔG° Regression (65,536 8-mers)
+### Exp 1A - ΔG° Regression (65,536 8-mers)
 
 ```bash
 python experiments/exp1a_parallel.py --n-seqs 65536 --n-cpus 64
 # Expected: R² = 0.868, CV R² = 0.764 ± 0.055, MAE = 0.626 kcal/mol
 ```
 
-### Exp 1B — Five-way Ablation (500 sequences)
+### Exp 1B - Five-way Ablation (500 sequences)
 
 ```bash
 python experiments/exp1b_parallel.py --n-seqs 500
 # Expected: Full=0.813, Random=−0.147 (0.96-unit drop)
 ```
 
-### Exp 1C — Structural Classification (176 pairs)
+### Exp 1C - Structural Classification (176 pairs)
 
 ```bash
 python experiments/exp1c_parallel.py
@@ -67,7 +67,7 @@ python experiments/analyze_exp1c.py
 # Expected: 100% ± 0.0% accuracy (all 3 classifiers)
 ```
 
-### Exp 1D — IBM Hardware Validation
+### Exp 1D - IBM Hardware Validation
 
 ```bash
 # Requires IBM Quantum Plan access
@@ -76,7 +76,7 @@ python experiments/exp1d_torino.py    # ibm_torino, 30 seqs → 0.9948 ± 0.0015
 python experiments/exp1d_12mer.py     # 12-mer, 24 qubits  → 0.9926 ± 0.0013
 ```
 
-### Exp 1E — Experimental Tm Validation (Oliveira 2020)
+### Exp 1E - Experimental Tm Validation (Oliveira 2020)
 
 ```bash
 python experiments/exp1e_corrected.py
@@ -128,8 +128,8 @@ python proofs/proposition3.py   # 358% info gain for AA/TT
 |---|---|---|
 | ibm_fez | Heron r2, 156 qubits | `d6qe32i0q0ls73cs7ah0` |
 | ibm_torino | Heron r1, 133 qubits | `d6qeljropkic73fhv7rg` |
-| 12-mer baseline | — | `d6qeh8nr88ds73dca350` |
-| 12-mer mitigated | — | `d6qehkbopkic73fhv1o0` |
+| 12-mer baseline | - | `d6qeh8nr88ds73dca350` |
+| 12-mer mitigated | - | `d6qehkbopkic73fhv1o0` |
 
 ---
 
