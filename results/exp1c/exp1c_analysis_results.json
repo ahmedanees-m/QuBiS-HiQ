@@ -1,0 +1,18 @@
+{
+    "experiment": "1C_analysis",
+    "n_pairs": 10,
+    "n_structured": 10,
+    "n_unstructured": 10,
+    "feature_dim_used": 45,
+    "best_classifier": "RF-100",
+    "best_accuracy_mean": 1.0,
+    "best_accuracy_std": 0.0,
+    "success": true,
+    "classifiers": {
+          "SVM-RBF C=10": {"mean": 0.9, "std": 0.1224744871391589},
+          "SVM-RBF C=100": {"mean": 0.9, "std": 0.1224744871391589},
+          "SVM-Linear": {"mean": 0.9, "std": 0.1224744871391589},
+          "RF-100": {"mean": 1.0, "std": 0.0}
+    },
+    "dg_r2_base": 0.13279821351642535
+}
