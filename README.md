@@ -90,8 +90,10 @@ python proofs/proposition3.py   # 358% info gain for AA/TT
    
     - ## License
    
-    - Academic and Non-Commercial Research Use License. See [LICENSE](LICENSE) for full terms.
-   
-    - This software is freely available for academic research and reproduction of published results. Commercial use requires prior written permission from the copyright holder.
-   
-    - For licensing enquiries: ahmedaneesm@gmail.com; +91 90290 34496
+    Academic and Open-Source Use:
+QuBiS-HiQ is released under the GNU General Public License v3.0 (GPLv3) to support open science and full academic reproducibility. This allows researchers to freely use, modify, and distribute the code under the condition that any derivative works are also open-sourced under the exact same GPLv3 terms. See the LICENSE file for full details.
+
+Commercial Licensing:
+The GPLv3 license requires that any proprietary software incorporating QuBiS-HiQ must also be open-sourced. If you represent a commercial entity (e.g., a biotech or pharmaceutical company) and wish to integrate QuBiS-HiQ into proprietary, closed-source products or internal commercial pipelines without the copyleft obligations of the GPLv3, a separate Commercial License is required.
+
+For commercial licensing inquiries, please contact the author directly at: ahmedaneesm@gmail.com; +91 90290 34496
