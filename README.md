@@ -96,4 +96,4 @@ QuBiS-HiQ is released under the GNU General Public License v3.0 (GPLv3) to suppo
 Commercial Licensing:
 The GPLv3 license requires that any proprietary software incorporating QuBiS-HiQ must also be open-sourced. If you represent a commercial entity (e.g., a biotech or pharmaceutical company) and wish to integrate QuBiS-HiQ into proprietary, closed-source products or internal commercial pipelines without the copyleft obligations of the GPLv3, a separate Commercial License is required.
 
-For commercial licensing inquiries, please contact the author directly at: ahmedaneesm@gmail.com; +91 90290 34496
+For licensing inquiries, please contact the author directly at: ahmedaneesm@gmail.com; +91 90290 34496
