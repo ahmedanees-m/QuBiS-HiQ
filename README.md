@@ -107,12 +107,12 @@ python proofs/proposition3.py   # 358% info gain for AA/TT
 
 | Experiment | Metric | Value |
 |---|---|---|
-| Exp 1A — ΔG° regression (65,536 8-mers) | CV R² | 0.764 ± 0.055 |
-| Exp 1B — Ablation: full vs random | R² drop | 0.813 → −0.147 |
-| Exp 1C — Structural classification | Accuracy | 100% ± 0.0% |
-| Exp 1D — IBM ibm_fez hardware (30 seqs) | Cosine similarity | 0.9970 ± 0.0005 |
-| Exp 1D — IBM ibm_torino cross-platform | Cosine similarity | 0.9948 ± 0.0015 |
-| Exp 1E — Experimental Tm (Oliveira 2020) | R² / r / MAE | 0.88 / 0.94 / 0.60°C |
+| Exp 1A - ΔG° regression (65,536 8-mers) | CV R² | 0.764 ± 0.055 |
+| Exp 1B - Ablation: full vs random | R² drop | 0.813 → −0.147 |
+| Exp 1C - Structural classification | Accuracy | 100% ± 0.0% |
+| Exp 1D - IBM ibm_fez hardware (30 seqs) | Cosine similarity | 0.9970 ± 0.0005 |
+| Exp 1D - IBM ibm_torino cross-platform | Cosine similarity | 0.9948 ± 0.0015 |
+| Exp 1E - Experimental Tm (Oliveira 2020) | R² / r / MAE | 0.88 / 0.94 / 0.60°C |
 
 ---
 
@@ -136,7 +136,7 @@ python proofs/proposition3.py   # 358% info gain for AA/TT
 ## License
 
 **Academic and Open-Source Use:**
-QuBiS-HiQ is released under the GNU General Public License v3.0 (GPLv3) to support open science and full academic reproducibility. This allows researchers to freely use, modify, and distribute the code under the condition that any derivative works are also open-sourced under the exact same GPLv3 terms. See the [LICENSE](LICENSE) file for full details.
+QuBiS-HiQ is released under the GNU General Public License v3.0 (GPLv3) to support open science and full academic reproducibility. This allows researchers to freely use, modify, and distribute the code under the condition that any derivative works are also open-sourced under the exact same GPLv3 terms. Please see the [LICENSE](LICENSE) file for full details.
 
 **Commercial Licensing:**
 The GPLv3 license requires that any proprietary software incorporating QuBiS-HiQ must also be open-sourced. If you represent a commercial entity (e.g., a biotech or pharmaceutical company) and wish to integrate QuBiS-HiQ into proprietary, closed-source products or internal commercial pipelines without the copyleft obligations of the GPLv3, a separate Commercial License is required.
