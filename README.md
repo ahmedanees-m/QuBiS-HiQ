@@ -4,6 +4,30 @@
 
 QuBiS-HiQ is a physics-informed quantum circuit that encodes SantaLucia nearest-neighbour DNA thermodynamic parameters into gate angles, generating interferometric correlators that provably exceed classical product-state bounds (up to 358% mutual information gain).
 
+The circuit operates by encoding each nucleotide onto two qubits via Ry rotations calibrated to the SantaLucia free energy table, then entangling adjacent qubits with CX + Ry(θ) gates where θ is set by the Boltzmann-sigmoid of the nearest-neighbour ΔG°. The resulting measurement statistics carry three-way correlations between nucleotide identity, stacking energy, and secondary structure — information that is inaccessible to classical product-state feature vectors. The approach is validated on 65,536 synthetic 8-mers (Exp 1A), a five-way ablation study (Exp 1B), structural classification of 176 sequence pairs (Exp 1C), real IBM quantum hardware across two processors (Exp 1D), and 64 experimental melting temperatures from Oliveira et al. 2020 (Exp 1E), achieving R² = 0.88, r = 0.94, MAE = 0.60°C on the latter.
+
+---
+
+## Repository Structure
+
+```
+QuBiS-HiQ/
+├── qubis_hiq/              # Core library
+│   ├── santalucia.py       # SantaLucia NN parameters + Boltzmann-sigmoid mapping
+│   ├── encoding.py         # Layer 1: deterministic Ry nucleotide encoding
+│   ├── watson_crick.py     # Layer 2: CRZ Watson-Crick complementarity gates
+│   ├── stacking.py         # Layer 3: CX+Ry nearest-neighbour stacking gates
+│   ├── trainable.py        # Layer 4: shared trainable local rotations
+│   ├── circuit_builder.py  # Full 6-layer circuit assembly + ablation variants
+│   └── feature_extraction.py  # ⟨Z⟩, ⟨ZZ⟩NN, ⟨ZZ⟩NNN correlator extraction
+├── experiments/            # Reproducible experiment scripts (Exp 1A–1E)
+├── proofs/                 # Formal computational proofs (Propositions 1–3)
+├── data/                   # Oliveira 2020 dataset + SantaLucia parameters
+└── results/                # Pre-computed JSON result files for all experiments
+```
+
+---
+
 ## Installation
 
 ```bash
@@ -14,6 +38,10 @@ ViennaRNA (Exp 1C only):
 ```bash
 conda install -c bioconda viennarna
 ```
+
+**Requirements:** Python ≥ 3.10, Qiskit ≥ 2.3, Qiskit-Aer ≥ 0.15. IBM Quantum account required only for Exp 1D hardware runs.
+
+---
 
 ## Reproducing All Experiments
 
@@ -73,13 +101,28 @@ python proofs/proposition2.py   # Uniqueness proof
 python proofs/proposition3.py   # 358% info gain for AA/TT
 ```
 
+---
+
+## Key Results Summary
+
+| Experiment | Metric | Value |
+|---|---|---|
+| Exp 1A — ΔG° regression (65,536 8-mers) | CV R² | 0.764 ± 0.055 |
+| Exp 1B — Ablation: full vs random | R² drop | 0.813 → −0.147 |
+| Exp 1C — Structural classification | Accuracy | 100% ± 0.0% |
+| Exp 1D — IBM ibm_fez hardware (30 seqs) | Cosine similarity | 0.9970 ± 0.0005 |
+| Exp 1D — IBM ibm_torino cross-platform | Cosine similarity | 0.9948 ± 0.0015 |
+| Exp 1E — Experimental Tm (Oliveira 2020) | R² / r / MAE | 0.88 / 0.94 / 0.60°C |
+
+---
+
 ## Data Sources
 
 - **Oliveira et al. 2020**: *Chem. Sci.* 11, 8273–8287. [DOI: 10.1039/d0sc01700k](https://doi.org/10.1039/d0sc01700k) (Open Access, CC-BY)
 - **SantaLucia & Hicks 2004**: *Annu. Rev. Biophys. Biomol. Struct.* 33, 415–440
-  - **IBM Quantum Job IDs**: See Supplementary Table S4
-   
-    ## Hardware
+- **IBM Quantum Job IDs**: See Supplementary Table S4
+
+## Hardware
 
 | System | Device | Job ID |
 |---|---|---|
@@ -87,13 +130,24 @@ python proofs/proposition3.py   # 358% info gain for AA/TT
 | ibm_torino | Heron r1, 133 qubits | `d6qeljropkic73fhv7rg` |
 | 12-mer baseline | — | `d6qeh8nr88ds73dca350` |
 | 12-mer mitigated | — | `d6qehkbopkic73fhv1o0` |
-   
-    - ## License
-   
-    Academic and Open-Source Use:
-QuBiS-HiQ is released under the GNU General Public License v3.0 (GPLv3) to support open science and full academic reproducibility. This allows researchers to freely use, modify, and distribute the code under the condition that any derivative works are also open-sourced under the exact same GPLv3 terms. See the LICENSE file for full details.
 
-Commercial Licensing:
+---
+
+## License
+
+**Academic and Open-Source Use:**
+QuBiS-HiQ is released under the GNU General Public License v3.0 (GPLv3) to support open science and full academic reproducibility. This allows researchers to freely use, modify, and distribute the code under the condition that any derivative works are also open-sourced under the exact same GPLv3 terms. See the [LICENSE](LICENSE) file for full details.
+
+**Commercial Licensing:**
 The GPLv3 license requires that any proprietary software incorporating QuBiS-HiQ must also be open-sourced. If you represent a commercial entity (e.g., a biotech or pharmaceutical company) and wish to integrate QuBiS-HiQ into proprietary, closed-source products or internal commercial pipelines without the copyleft obligations of the GPLv3, a separate Commercial License is required.
 
-For licensing inquiries, please contact the author directly at: ahmedaneesm@gmail.com; +91 90290 34496
+---
+
+## Contact & Enquiries
+
+| Type | Details |
+|---|---|
+| **Scientific enquiries** | Open a [GitHub Issue](https://github.com/ahmedanees-m/QuBiS-HiQ/issues) |
+| **Licensing / Collaboration / other** | ahmedaneesm@gmail.com · +91 90290 34496 |
+
+Bugs, reproducibility issues, and questions about the methodology are all welcome via GitHub Issues.
