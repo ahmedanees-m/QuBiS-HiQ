@@ -1,0 +1,12 @@
+[
+  {"seq1": "GCGCGCGC", "seq2": "ATATATAT", "struct1": "((((....))))", "struct2": "........", "dg1": -3.2, "dg2": -0.8},
+    {"seq1": "CCGGCCGG", "seq2": "TTAATTAA", "struct1": "((((....))))", "struct2": "........", "dg1": -3.5, "dg2": -0.6},
+      {"seq1": "GGCCGGCC", "seq2": "AATTAATT", "struct1": "((((....))))", "struct2": "........", "dg1": -3.4, "dg2": -0.7},
+        {"seq1": "CGCGCGCG", "seq2": "TATATATA", "struct1": "((((....))))", "struct2": "........", "dg1": -3.1, "dg2": -0.9},
+          {"seq1": "GGGCCCGG", "seq2": "ATAATAAT", "struct1": "((((....))))", "struct2": "........", "dg1": -3.6, "dg2": -0.5},
+            {"seq1": "CCGGGCCC", "seq2": "TAATAATA", "struct1": "((((....))))", "struct2": "........", "dg1": -3.3, "dg2": -0.8},
+              {"seq1": "GCCCGGGC", "seq2": "ATTAATTA", "struct1": "((((....))))", "struct2": "........", "dg1": -3.7, "dg2": -0.6},
+                {"seq1": "CGGCGGCG", "seq2": "TAATATTA", "struct1": "((((....))))", "struct2": "........", "dg1": -3.0, "dg2": -1.0},
+                  {"seq1": "GCGCCGCG", "seq2": "ATTATAAT", "struct1": "((((....))))", "struct2": "........", "dg1": -3.2, "dg2": -0.7},
+                    {"seq1": "GCCGCGGC", "seq2": "TAATAATT", "struct1": "((((....))))", "struct2": "........", "dg1": -3.4, "dg2": -0.9}
+                    ]
