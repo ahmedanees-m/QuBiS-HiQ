@@ -52,7 +52,7 @@ python experiments/exp1d_12mer.py     # 12-mer, 24 qubits  → 0.9926 ± 0.0013
 
 ```bash
 python experiments/exp1e_corrected.py
-# Expected: R² = 0.88, r = 0.94, p = 1.7×10⁻³⁰, MAE = 0.55°C
+# Expected: R² = 0.88, r = 0.94, p = 2.67×10⁻³⁰, MAE = 0.60°C
 # Dataset:  64 canonical DNA duplexes, 38 qubits (MPS simulation)
 # Scaffold: 5'-CGACGTGC[NNN]ATGTGCTG-3' (19 nt, page 8275 of Oliveira et al.)
 # Buffer:   50 mM NaCl, 10 mM sodium phosphate, pH 7.4, 1.0 µM total strand
@@ -76,17 +76,17 @@ python proofs/proposition3.py   # 358% info gain for AA/TT
 ## Data Sources
 
 - **Oliveira et al. 2020**: *Chem. Sci.* 11, 8273–8287. [DOI: 10.1039/d0sc01700k](https://doi.org/10.1039/d0sc01700k) (Open Access, CC-BY)
-- - **SantaLucia & Hicks 2004**: *Annu. Rev. Biophys. Biomol. Struct.* 33, 415–440
-  - - **IBM Quantum Job IDs**: See Supplementary Table S4
+- **SantaLucia & Hicks 2004**: *Annu. Rev. Biophys. Biomol. Struct.* 33, 415–440
+  - **IBM Quantum Job IDs**: See Supplementary Table S4
    
-    - ## Hardware
-   
-    - | System | Device | Job ID |
-    - |---|---|---|
-    - | ibm_fez | Heron r2, 156 qubits | `d6qe32i0q0ls73cs7ah0` |
-    - | ibm_torino | Heron r1, 133 qubits | `d6qeljropkic73fhv7rg` |
-    - | 12-mer baseline | — | `d6qeh8nr88ds73dca350` |
-    - | 12-mer mitigated | — | `d6qehkbopkic73fhv1o0` |
+    ## Hardware
+
+| System | Device | Job ID |
+|---|---|---|
+| ibm_fez | Heron r2, 156 qubits | `d6qe32i0q0ls73cs7ah0` |
+| ibm_torino | Heron r1, 133 qubits | `d6qeljropkic73fhv7rg` |
+| 12-mer baseline | — | `d6qeh8nr88ds73dca350` |
+| 12-mer mitigated | — | `d6qehkbopkic73fhv1o0` |
    
     - ## License
    
