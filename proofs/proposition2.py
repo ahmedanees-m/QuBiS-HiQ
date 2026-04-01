@@ -1,6 +1,10 @@
-"""Proposition 2: Boltzmann-Sigmoid Uniqueness.
+"""Proposition 2: Boltzmann-Sigmoid Uniqueness - Computational Verification.
 
-Formal claim:
+This is an executable mathematical verification script, NOT a
+formal proof-assistant artifact (e.g., Coq, Isabelle, Lean). It numerically
+verifies the mathematical claims through exhaustive testing.
+
+Mathematical Claim:
   The angle mapping theta(dG) = pi * sigma(-beta * dG),
   where sigma(x) = 1 / (1 + exp(-x)) is the logistic sigmoid,
   is the UNIQUE continuous function satisfying all four axioms:
@@ -13,12 +17,11 @@ Formal claim:
     Axiom 4 (Dimensional):  theta(dG) depends on dG only through beta*dG
                             (only dimensionless combinations appear)
 
-This script:
+This verification script:
   1. Verifies all four axioms numerically for the QuBiS-HiQ mapping.
   2. Tests that candidate alternatives (linear, tanh, arctan) fail at least
      one axiom when correctly normalised.
   3. Demonstrates the uniqueness argument via a functional equation.
-  4. Prints a formal proof sketch.
 """
 import numpy as np
 import sys
