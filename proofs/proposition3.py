@@ -1,6 +1,10 @@
-"""Proposition 3: Interferometric Information Gain.
+"""Proposition 3: Interferometric Information Gain - Computational Verification.
 
-Formal claim:
+This is an executable mathematical verification script, NOT a
+formal proof-assistant artifact (e.g., Coq, Isabelle, Lean). It numerically
+verifies the analytical derivation through statevector simulation.
+
+Mathematical Claim:
   After the CX + Ry(theta_s) stacking layer applied to qubit pair (a, b)
   with initial states Ry(theta_a)|0> and Ry(theta_b)|0>, the two-qubit
   correlator is:
@@ -15,7 +19,7 @@ Formal claim:
   Therefore the quantum circuit captures nearest-neighbor stacking
   correlations that are INACCESSIBLE to a classical product-state model.
 
-This script:
+This verification script:
   1. Derives <Z_a Z_b> analytically for the 2-qubit subspace.
   2. Numerically verifies the formula using statevector simulation.
   3. Demonstrates the information gain for all 16 nucleotide pairs in a
