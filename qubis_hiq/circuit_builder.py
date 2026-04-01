@@ -71,7 +71,8 @@ def build_circuit(sequence: str,
             trainable_params = np.random.uniform(-np.pi, np.pi, len(trainable_params))
         apply_trainable_layer(qc, sequence, trainable_params)
     else:
-        apply_trainable_layer(qc, sequence, np.zeros(12))  # Default: zero rotations
+        # Return ParameterVector for variational optimization (as documented)
+        apply_trainable_layer(qc, sequence, None)
     qc.barrier()
 
     # Layer 5: Hadamard interference — REMOVED in v2.
