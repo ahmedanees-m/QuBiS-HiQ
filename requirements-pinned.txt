@@ -1,0 +1,21 @@
+# QuBiS-HiQ - Pinned Python dependencies for reproducibility
+# Generated: 2026-04-01
+# Python version: 3.12
+
+# Quantum
+qiskit==2.3.0
+qiskit-aer==0.15.1
+qiskit-ibm-runtime==0.41.1
+
+# Scientific
+numpy==1.26.4
+scipy==1.13.1
+scikit-learn==1.4.2
+
+# Visualisation
+matplotlib==3.8.4
+umap-learn==0.5.6
+
+# RNA structure (Exp 1C only)
+# ViennaRNA must be installed separately:
+# conda install -c bioconda viennarna=2.6.4
