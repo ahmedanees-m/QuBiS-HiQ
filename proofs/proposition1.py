@@ -1,5 +1,8 @@
-"""Proposition 1: Encoding-Mutation Isomorphism.
+"""Proposition 1: Encoding-Mutation Isomorphism - Computational Verification.
 
+This is an executable mathematical verification script, NOT a
+formal proof-assistant artifact (e.g., Coq, Isabelle, Lean). It numerically
+verifies the mathematical claims through exhaustive enumeration.
 Formal claim:
   The 2-bit encoding A=00, T=01, G=10, C=11 defines a Hamming metric on
   nucleotide space such that:
@@ -15,8 +18,6 @@ This script:
   1. Enumerates all 12 ordered single-nucleotide substitutions.
   2. Computes Hamming distances for each pair.
   3. Verifies the isomorphism claims with assertions.
-  4. Prints the full 4x4 distance matrix.
-  5. Prints a formal proof sketch.
 """
 import numpy as np
 import sys
