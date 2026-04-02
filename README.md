@@ -6,6 +6,11 @@ QuBiS-HiQ is a physics-informed quantum circuit that encodes SantaLucia nearest-
 
 The circuit operates by encoding each nucleotide onto two qubits via Ry rotations calibrated to the SantaLucia free energy table, then entangling adjacent qubits with CX + Ry(θ) gates where θ is set by the Boltzmann-sigmoid of the nearest-neighbour ΔG°. The resulting measurement statistics exhibit three-way correlations among nucleotide identity, stacking energy, and secondary structure information that are inaccessible to classical product-state feature vectors. The approach is validated on 65,536 synthetic 8-mers (Exp 1A), a five-way ablation study (Exp 1B), structural classification of 176 sequence pairs (Exp 1C), real IBM quantum hardware across two processors (Exp 1D), and 64 experimental melting temperatures from Oliveira et al. 2020 (Exp 1E), achieving R² = 0.88, r = 0.94, and MAE = 0.60°C on the latter.
 
+![Pipeline Architecture](pipeline_architecture.png)
+
+*Figure: High-level overview of the QuBiS-HiQ computational pipeline. Input DNA sequences are first processed classically via ViennaRNA to establish thermodynamic baselines. The sequences and structural information are then encoded into the QuBiS-HiQ circuit, simulated on local simulators (HPC) or executed on IBM hardware. Z-basis measurements are processed to extract high-dimensional, physics-interpretable feature vectors for downstream machine learning tasks.*
+
+
 ---
 
 ## Repository Structure
