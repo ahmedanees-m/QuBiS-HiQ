@@ -8,7 +8,7 @@ The circuit operates by encoding each nucleotide onto two qubits via Ry rotation
 
 ![Pipeline Architecture](pipeline_architecture.png)
 
-*Figure: High-level overview of the QuBiS-HiQ computational pipeline. Input DNA sequences are first processed classically via ViennaRNA to establish thermodynamic baselines. The sequences and structural information are then encoded into the QuBiS-HiQ circuit, simulated on local simulators (HPC) or executed on IBM hardware. Z-basis measurements are processed to extract high-dimensional, physics-interpretable feature vectors for downstream machine learning tasks.*
+*Figure 1: Overview of the QuBiS-HiQ computational pipeline. Input DNA sequences are first processed classically via ViennaRNA to establish thermodynamic baselines. The sequences and structural information are then encoded into the QuBiS-HiQ circuit, simulated on local simulators (HPC) or executed on IBM hardware. Z-basis measurements are processed to extract high-dimensional, physics-interpretable feature vectors for downstream machine learning tasks.*
 
 
 ---
