@@ -74,8 +74,20 @@ class TestBuildCircuit(unittest.TestCase):
         qc1 = build_circuit(sequence, trainable_params=np.zeros(12), random_angles=True)
         qc2 = build_circuit(sequence, trainable_params=np.zeros(12), random_angles=True)
         
-        # Two random circuits should be different
-        self.assertNotEqual(qc1.qasm(), qc2.qasm())
+        # Two random circuits should be different (compare gate parameters)
+        def get_gate_params(qc):
+            params = []
+            for inst in qc.data:
+                op = inst.operation
+                if hasattr(op, 'params') and op.params:
+                    params.extend([float(p) for p in op.params])
+            return params
+        
+        params1 = get_gate_params(qc1)
+        params2 = get_gate_params(qc2)
+        
+        # Random circuits should have different parameters
+        self.assertNotEqual(params1, params2)
 
     def test_include_measurement(self):
         """Test measurement inclusion."""
