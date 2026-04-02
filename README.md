@@ -190,6 +190,6 @@ The GPLv3 license requires that any proprietary software incorporating QuBiS-HiQ
 | Type | Details |
 |---|---|
 | **Scientific enquiries** | Open a [GitHub Issue](https://github.com/ahmedanees-m/QuBiS-HiQ/issues) |
-| **Licensing / Collaboration / other** | ahmedaneesm@gmail.com · +91 90290 34496 |
+| **Other** | ahmedaneesm@gmail.com · +91 90290 34496 |
 
 Bugs, reproducibility issues, and questions about the methodology are all welcome via GitHub Issues.
