@@ -83,28 +83,4 @@ jobs:
           python-version: '3.12'
 
       - name: Validate JSON files
-        run: |
-          python - <<'EOF'
-import json
-import os
-import sys
-
-errors = []
-for root, dirs, files in os.walk('.'):
-    for f in files:
-        if f.endswith('.json'):
-            path = os.path.join(root, f)
-            try:
-                with open(path) as fp:
-                    json.load(fp)
-            except json.JSONDecodeError as e:
-                errors.append((path, str(e)))
-
-if errors:
-    print('JSON validation errors:')
-    for path, err in errors:
-        print(f'  {path}: {err}')
-    sys.exit(1)
-else:
-    print('All JSON files are valid')
-EOF
+        run: python validate_json.py
