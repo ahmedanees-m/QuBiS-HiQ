@@ -25,7 +25,7 @@ QuBiS-HiQ/
 │   ├── trainable.py        # Layer 4: shared trainable local rotations
 │   ├── circuit_builder.py  # Full 6-layer circuit assembly + ablation variants
 │   └── feature_extraction.py  # ⟨Z⟩, ⟨ZZ⟩NN, ⟨ZZ⟩NNN correlator extraction
-├── experiments/            # Reproducible experiment scripts (Exp 1A–1E)
+├── experiments/            # Reproducible experiment scripts (Exp 1A–1E + diagnostics)
 ├── proofs/                 # Executable mathematical verification scripts (Propositions 1–3)
 │                           # NOTE: These are computational verifications, NOT formal
 │                           # proof-assistant artifacts (e.g., Coq, Isabelle, Lean)
@@ -150,6 +150,73 @@ python proofs/proposition3.py   # 358% info gain for AA/TT
 
 ---
 
+## Quantum Kernel Diagnostic Experiments
+
+These three experiments characterise the statistical properties of the quantum kernel, quantify whether the performance advantage is attributable to the quantum computation itself (vs. the SantaLucia physics encoding), and measure the contribution of each entangling layer.
+
+### Kernel Condition Number Analysis
+
+```bash
+python experiments/kernel_condition_analysis.py
+# Outputs: results/kernel_condition_results.json
+```
+
+Computes the condition number κ(K) = σ_max / σ_min for two kernels:
+
+| Kernel | n | κ | log₁₀κ | Assessment |
+|---|---|---|---|---|
+| Exact quantum kernel (8-mer statevector) | 50 | **23** | 1.37 | ✅ Well-conditioned |
+| Feature-vector linear kernel (Oliveira 19-nt, MPS) | 64 | **1.6 × 10⁷** | 7.20 | ⚠️ Poorly conditioned |
+
+The 8-mer quantum kernel is full-rank and well-conditioned (all 50 eigenvalues positive, min eigenvalue 0.33). The Oliveira 19-nt feature kernel grows as κ ∝ n^1.4, reaching 1.6×10⁷ at n=64. This confirms that **Ridge regression regularisation is essential** for the full Oliveira dataset — vanilla SVM would be numerically unstable.
+
+### Physics-Informed Classical Baseline
+
+```bash
+python experiments/classical_physics_baseline.py
+# Outputs: results/classical_physics_baseline_results.json
+```
+
+Compares pure SantaLucia physics feature sets against QuBiS-HiQ for Oliveira 2020 Tm prediction (LOO-CV Ridge, same protocol as Exp 1E):
+
+| Method | Features | LOO R² | MAE |
+|---|---|---|---|
+| Total ΔG° only | 1-d | 0.841 | 0.74°C |
+| Per-step ΔG° | 18-d | 0.876 | 0.65°C |
+| Variable-region features | 17-d | **0.935** | **0.43°C** |
+| Rich physics | 41-d | 0.929 | 0.46°C |
+| Rich physics + polynomial degree-2 | 989-d | 0.929 | 0.46°C |
+| **QuBiS-HiQ quantum (variable region)** | 21-d | **0.880** | **0.60°C** |
+| QuBiS-HiQ quantum (full features) | 111-d | 0.719 | 1.00°C |
+
+**Interpretation:** Classical physics features derived directly from SantaLucia parameters (GC count, boundary ΔG° steps, one-hot centre encoding) achieve R²=0.935, exceeding the quantum headline result of R²=0.880 by 5.5 percentage points. This establishes that the predictive signal for Tm resides primarily in the **physics encoding** (SantaLucia parameter selection and feature construction), not in quantum computational effects such as entanglement or interference. This is consistent with the entanglement ablation results below.
+
+### Entanglement Ablation Study
+
+```bash
+python experiments/entanglement_ablation.py
+# Outputs: results/entanglement_ablation_results.json
+```
+
+Tests five circuit variants on the Oliveira 2020 Tm prediction task (MPS simulation, 38 qubits, LOO-CV Ridge):
+
+| Circuit Variant | LOO R² | ΔR² vs full |
+|---|---|---|
+| Full (Encoding + WC + Stacking) | 0.776 | — |
+| No Watson-Crick layer | **0.853** | +0.077 |
+| No Stacking layer | 0.747 | −0.029 |
+| Encoding only (no entanglement) | 0.561 | −0.214 |
+| Random-angle CX (physics-uninformed) | −0.315 | −1.090 |
+
+**Key findings:**
+
+1. **Entanglement is necessary:** Removing all CX gates (encoding-only) drops R² by 0.21, confirming entangling gates carry genuine predictive information beyond local Ry rotations.
+2. **Physics-informed structure is critical:** Replacing SantaLucia-derived rotation angles with random values collapses performance to R²=−0.315 — a 1.09 R² drop — demonstrating that the specific Boltzmann-sigmoid angle schedule is essential, not arbitrary entanglement.
+3. **Watson-Crick layer on linear duplexes:** Removing the Watson-Crick CRZ layer *improves* performance for the Oliveira linear duplex scaffold (+0.077 R²). ViennaRNA predictions for these sequences may generate spurious hairpin stem pairs that add noise rather than signal in the duplex Tm prediction context.
+4. **Stacking layer contribution is modest:** The CX+Ry stacking gates contribute +0.03 R² in isolation; most entanglement benefit comes from the combined WC+stacking interaction.
+
+---
+
 ## Key Results Summary
 
 | Experiment | Metric | Value |
@@ -160,6 +227,10 @@ python proofs/proposition3.py   # 358% info gain for AA/TT
 | Exp 1D - IBM ibm_fez hardware (30 seqs) | Cosine similarity | 0.9970 ± 0.0005 |
 | Exp 1D - IBM ibm_torino cross-platform | Cosine similarity | 0.9948 ± 0.0015 |
 | Exp 1E - Experimental Tm (Oliveira 2020) | R² / r / MAE | 0.88 / 0.94 / 0.60°C |
+| Kernel condition (8-mer exact) | κ | 23 (well-conditioned) |
+| Kernel condition (Oliveira, 64 seqs) | κ | 1.6×10⁷ (regularise) |
+| Classical physics baseline (best) | LOO R² | 0.935 (variable-region 17-d) |
+| Entanglement contribution | ΔR² | +0.21 (vs encoding-only) |
 
 ---
 
