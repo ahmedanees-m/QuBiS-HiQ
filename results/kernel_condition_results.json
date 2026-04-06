@@ -1,0 +1,132 @@
+{
+  "experiment": "Kernel Condition Number Analysis",
+  "exact_8mer_kernel": {
+    "label": "Exact quantum kernel (8-mers, n=50)",
+    "n": 50,
+    "condition_number": 23.434480375200945,
+    "condition_number_log10": 1.369855328127839,
+    "effective_rank": 50,
+    "min_eigenvalue": 0.33224203881979875,
+    "is_psd": true,
+    "top5_singular_values": [
+      7.785919538539346,
+      2.1780581994959394,
+      2.124283533255107,
+      1.9634666950774697,
+      1.9385830160894724
+    ],
+    "bot5_singular_values": [
+      0.4146399645729187,
+      0.40194971890006986,
+      0.37286780499968186,
+      0.3617659894836576,
+      0.3322420388197997
+    ],
+    "assessment": "GOOD: \u03ba < 1e3 \u2014 well-conditioned",
+    "n_sequences": 50,
+    "circuit": "encoding + stacking (16 qubits)",
+    "method": "statevector inner product",
+    "scaling": [
+      {
+        "n": 10,
+        "condition_number": 4.662032234943666,
+        "log10_cond": 0.6685752720609542,
+        "effective_rank": 10
+      },
+      {
+        "n": 20,
+        "condition_number": 8.112350169937045,
+        "log10_cond": 0.9091466887334838,
+        "effective_rank": 20
+      },
+      {
+        "n": 30,
+        "condition_number": 14.422883237056643,
+        "log10_cond": 1.1590520876216996,
+        "effective_rank": 30
+      },
+      {
+        "n": 40,
+        "condition_number": 18.442073977121503,
+        "log10_cond": 1.2658097597854363,
+        "effective_rank": 40
+      },
+      {
+        "n": 50,
+        "condition_number": 23.434480375200945,
+        "log10_cond": 1.369855328127839,
+        "effective_rank": 50
+      }
+    ]
+  },
+  "oliveira_feature_kernel": {
+    "label": "Feature-vector linear kernel (Oliveira, n=64)",
+    "n": 64,
+    "condition_number": 15852007.856990306,
+    "condition_number_log10": 7.200084278918693,
+    "effective_rank": 64,
+    "min_eigenvalue": 3.767943154072563e-06,
+    "is_psd": true,
+    "top5_singular_values": [
+      59.72946449706424,
+      1.2453274591274701,
+      1.1655090986497636,
+      1.1314357215777073,
+      0.18355979865713143
+    ],
+    "bot5_singular_values": [
+      1.3912337081058561e-05,
+      1.063730515593785e-05,
+      9.61108466942803e-06,
+      9.124769311014382e-06,
+      3.7679431549565607e-06
+    ],
+    "assessment": "WARNING: \u03ba > 1e6 \u2014 poorly conditioned; regularisation essential",
+    "n_sequences": 64,
+    "circuit": "encoding + stacking (38 qubits)",
+    "method": "MPS feature vectors (linear kernel proxy)",
+    "scaling": [
+      {
+        "n": 10,
+        "condition_number": 69837.80784306866,
+        "log10_cond": 4.844090598730152,
+        "effective_rank": 10
+      },
+      {
+        "n": 20,
+        "condition_number": 213799.34658708464,
+        "log10_cond": 5.330006373585308,
+        "effective_rank": 20
+      },
+      {
+        "n": 30,
+        "condition_number": 532905.8190787759,
+        "log10_cond": 5.7266504625565515,
+        "effective_rank": 30
+      },
+      {
+        "n": 40,
+        "condition_number": 1250227.5243491353,
+        "log10_cond": 6.096989055870067,
+        "effective_rank": 40
+      },
+      {
+        "n": 50,
+        "condition_number": 3122412.0785627277,
+        "log10_cond": 6.494490218276714,
+        "effective_rank": 50
+      },
+      {
+        "n": 64,
+        "condition_number": 15852007.856990306,
+        "log10_cond": 7.200084278918693,
+        "effective_rank": 64
+      }
+    ]
+  },
+  "interpretation": {
+    "threshold_critical": 1000000000000.0,
+    "threshold_warning": 1000000.0,
+    "threshold_moderate": 1000.0
+  }
+}
