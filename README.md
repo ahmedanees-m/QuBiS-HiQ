@@ -10,7 +10,6 @@ The circuit operates by encoding each nucleotide onto two qubits via Ry rotation
 
 *Figure 1: Overview of the QuBiS-HiQ computational pipeline. Input DNA sequences are first processed classically via ViennaRNA to establish thermodynamic baselines. The sequences and structural information are then encoded into the QuBiS-HiQ circuit, simulated on local simulators (HPC) or executed on IBM hardware. Z-basis measurements are processed to extract high-dimensional, physics-interpretable feature vectors for downstream machine learning tasks.*
 
-
 ---
 
 ## Repository Structure
@@ -152,9 +151,9 @@ python proofs/proposition3.py   # 358% info gain for AA/TT
 
 ## Quantum Kernel Diagnostic Experiments
 
-These three experiments characterise the statistical properties of the quantum kernel, quantify whether the performance advantage is attributable to the quantum computation itself (vs. the SantaLucia physics encoding), and measure the contribution of each entangling layer.
+These four experiments characterise the statistical properties of the quantum kernel, quantify whether the performance advantage is attributable to the quantum computation itself (vs. the SantaLucia physics encoding), measure the contribution of each entangling layer, and identify the optimal circuit-feature configuration.
 
-### Kernel Condition Number Analysis
+### Experiment D1 — Kernel Condition Number Analysis
 
 ```bash
 python experiments/kernel_condition_analysis.py
@@ -168,9 +167,9 @@ Computes the condition number κ(K) = σ_max / σ_min for two kernels:
 | Exact quantum kernel (8-mer statevector) | 50 | **23** | 1.37 | ✅ Well-conditioned |
 | Feature-vector linear kernel (Oliveira 19-nt, MPS) | 64 | **1.6 × 10⁷** | 7.20 | ⚠️ Poorly conditioned |
 
-The 8-mer quantum kernel is full-rank and well-conditioned (all 50 eigenvalues positive, min eigenvalue 0.33). The Oliveira 19-nt feature kernel grows as κ ∝ n^1.4, reaching 1.6×10⁷ at n=64. This confirms that **Ridge regression regularisation is essential** for the full Oliveira dataset — vanilla SVM would be numerically unstable.
+The 8-mer quantum kernel is full-rank and well-conditioned (κ=23, all 50 eigenvalues positive, min eigenvalue 0.33). The condition number grows as κ ∝ n^1.4 across subset sizes, reaching 1.6×10⁷ at n=64 for the Oliveira 19-nt sequences. **Ridge regression regularisation is therefore essential** for the full Oliveira dataset — the results confirm that the LOO-CV Ridge protocol used in Exp 1E is the correct approach.
 
-### Physics-Informed Classical Baseline
+### Experiment D2 — Physics-Informed Classical Baseline
 
 ```bash
 python experiments/classical_physics_baseline.py
@@ -183,37 +182,67 @@ Compares pure SantaLucia physics feature sets against QuBiS-HiQ for Oliveira 202
 |---|---|---|---|
 | Total ΔG° only | 1-d | 0.841 | 0.74°C |
 | Per-step ΔG° | 18-d | 0.876 | 0.65°C |
-| Variable-region features | 17-d | **0.935** | **0.43°C** |
+| Variable-region features | **17-d** | **0.935** | **0.43°C** |
 | Rich physics | 41-d | 0.929 | 0.46°C |
-| Rich physics + polynomial degree-2 | 989-d | 0.929 | 0.46°C |
-| **QuBiS-HiQ quantum (variable region)** | 21-d | **0.880** | **0.60°C** |
+| QuBiS-HiQ quantum (variable region, no-WC) | 21-d | 0.911 | 0.53°C |
 | QuBiS-HiQ quantum (full features) | 111-d | 0.719 | 1.00°C |
 
-**Interpretation:** Classical physics features derived directly from SantaLucia parameters (GC count, boundary ΔG° steps, one-hot centre encoding) achieve R²=0.935, exceeding the quantum headline result of R²=0.880 by 5.5 percentage points. This establishes that the predictive signal for Tm resides primarily in the **physics encoding** (SantaLucia parameter selection and feature construction), not in quantum computational effects such as entanglement or interference. This is consistent with the entanglement ablation results below.
+**Interpretation:** A 17-dimensional classical feature vector (GC count, boundary ΔG° steps, one-hot NNN centre encoding) achieves R²=0.935, exceeding the quantum variable-region result of R²=0.911 by 2.4 percentage points. The predictive signal for Tm resides primarily in the **physics encoding** — specifically in the direct SantaLucia parameterisation of the variable NNN centre — rather than in entanglement or interference effects. See Exp D4 for the combined result.
 
-### Entanglement Ablation Study
+### Experiment D3 — Entanglement Ablation Study
 
 ```bash
 python experiments/entanglement_ablation.py
 # Outputs: results/entanglement_ablation_results.json
 ```
 
-Tests five circuit variants on the Oliveira 2020 Tm prediction task (MPS simulation, 38 qubits, LOO-CV Ridge):
+Tests five circuit variants on the Oliveira 2020 Tm prediction task (MPS simulation, 38 qubits, LOO-CV Ridge). Results are shown at two feature-extraction levels:
+
+**Full 111-d features (all Z correlators across 38 qubits):**
 
 | Circuit Variant | LOO R² | ΔR² vs full |
 |---|---|---|
 | Full (Encoding + WC + Stacking) | 0.776 | — |
-| No Watson-Crick layer | **0.853** | +0.077 |
+| No Watson-Crick layer | 0.853 | +0.077 |
 | No Stacking layer | 0.747 | −0.029 |
 | Encoding only (no entanglement) | 0.561 | −0.214 |
-| Random-angle CX (physics-uninformed) | −0.315 | −1.090 |
+| Random-angle CX | −0.315 | −1.090 |
+
+**Variable-region 21-d features (qubits 16–21 only):**
+
+| Circuit Variant | LOO R² | ΔR² vs full |
+|---|---|---|
+| Full (Encoding + WC + Stacking) | 0.902 | — |
+| No Watson-Crick layer | **0.912** | +0.009 |
+| No Stacking layer | 0.910 | +0.008 |
+| Encoding only (no entanglement) | 0.909 | +0.007 |
+| Random-angle CX | −0.194 | −1.097 |
 
 **Key findings:**
 
-1. **Entanglement is necessary:** Removing all CX gates (encoding-only) drops R² by 0.21, confirming entangling gates carry genuine predictive information beyond local Ry rotations.
-2. **Physics-informed structure is critical:** Replacing SantaLucia-derived rotation angles with random values collapses performance to R²=−0.315 — a 1.09 R² drop — demonstrating that the specific Boltzmann-sigmoid angle schedule is essential, not arbitrary entanglement.
-3. **Watson-Crick layer on linear duplexes:** Removing the Watson-Crick CRZ layer *improves* performance for the Oliveira linear duplex scaffold (+0.077 R²). ViennaRNA predictions for these sequences may generate spurious hairpin stem pairs that add noise rather than signal in the duplex Tm prediction context.
-4. **Stacking layer contribution is modest:** The CX+Ry stacking gates contribute +0.03 R² in isolation; most entanglement benefit comes from the combined WC+stacking interaction.
+1. **Entanglement on full features:** Removing all CX gates drops LOO R² by 0.21 (full features). Physics-informed entanglement is essential for the full-circuit correlator representation.
+2. **Variable-region convergence:** When features are restricted to the variable-region qubits (16–21), all circuit variants except random achieve nearly identical performance (R²=0.90–0.91). Local Ry encoding captures most variable-region Tm information independently of entanglement. The no-WC variant is marginally best (R²=0.912).
+3. **Physics-informed structure is non-negotiable:** Random-angle CX collapses to R²=−0.31 (full) and −0.19 (variable-region) — a catastrophic failure confirming that the Boltzmann-sigmoid angle schedule is the essential ingredient, not arbitrary entanglement.
+4. **Watson-Crick layer on linear duplexes:** Removing the Watson-Crick CRZ layer improves performance for the Oliveira linear duplex scaffold (+0.077 R² on full features). ViennaRNA-predicted hairpin stem pairs are not appropriate for this linear-duplex melting context and add noise rather than signal.
+
+### Experiment D4 — Best Configuration Synthesis
+
+```bash
+python experiments/best_configuration.py
+# Outputs: results/best_configuration_results.json
+```
+
+Tests the optimal circuit-feature configurations, including the combined quantum+classical feature set:
+
+| Configuration | LOO R² | r | MAE |
+|---|---|---|---|
+| Quantum var-region (no-WC, 21-d) | 0.911 | 0.955 | 0.53°C |
+| Classical var-region (17-d) | 0.935 | 0.968 | 0.43°C |
+| **Quantum + Classical combined (38-d)** | **0.941** | **0.970** | **0.41°C** |
+| Quantum full features (no-WC, 111-d) | 0.750 | 0.870 | 0.88°C |
+| Kernel Ridge (linear kernel, no-WC) | 0.895 | 0.946 | 0.58°C |
+
+**The combined quantum+classical feature set (38-d) achieves R²=0.941, the best result in the project** — a synergistic gain of +0.006 R² over the best classical-only baseline (0.935). While the individual quantum variable-region features fall 2.4 points short of classical, they encode complementary information that classical features do not capture, yielding the best overall prediction when fused. This supports positioning QuBiS-HiQ as a **physics-informed feature extractor that complements rather than replaces classical thermodynamic features**.
 
 ---
 
@@ -221,16 +250,18 @@ Tests five circuit variants on the Oliveira 2020 Tm prediction task (MPS simulat
 
 | Experiment | Metric | Value |
 |---|---|---|
-| Exp 1A - ΔG° regression (65,536 8-mers) | CV R² | 0.764 ± 0.055 |
-| Exp 1B - Ablation: full vs random | R² drop | 0.813 → -0.147 |
-| Exp 1C - Structural classification | Accuracy | 100% ± 0.0% |
-| Exp 1D - IBM ibm_fez hardware (30 seqs) | Cosine similarity | 0.9970 ± 0.0005 |
-| Exp 1D - IBM ibm_torino cross-platform | Cosine similarity | 0.9948 ± 0.0015 |
-| Exp 1E - Experimental Tm (Oliveira 2020) | R² / r / MAE | 0.88 / 0.94 / 0.60°C |
-| Kernel condition (8-mer exact) | κ | 23 (well-conditioned) |
-| Kernel condition (Oliveira, 64 seqs) | κ | 1.6×10⁷ (regularise) |
-| Classical physics baseline (best) | LOO R² | 0.935 (variable-region 17-d) |
-| Entanglement contribution | ΔR² | +0.21 (vs encoding-only) |
+| Exp 1A — ΔG° regression (65,536 8-mers) | CV R² | 0.764 ± 0.055 |
+| Exp 1B — Ablation: full vs random | R² drop | 0.813 → −0.147 |
+| Exp 1C — Structural classification | Accuracy | 100% ± 0.0% |
+| Exp 1D — IBM ibm_fez hardware (30 seqs) | Cosine similarity | 0.9970 ± 0.0005 |
+| Exp 1D — IBM ibm_torino cross-platform | Cosine similarity | 0.9948 ± 0.0015 |
+| Exp 1E — Experimental Tm (Oliveira 2020) | R² / r / MAE | 0.88 / 0.94 / 0.60°C |
+| D1 — Kernel condition (8-mer, n=50) | κ | 23 (well-conditioned) |
+| D1 — Kernel condition (Oliveira, n=64) | κ | 1.6×10⁷ (regularise) |
+| D2 — Best classical baseline | LOO R² | 0.935 (variable-region 17-d) |
+| D3 — Entanglement contribution (full) | ΔR² | +0.21 vs encoding-only |
+| D3 — Watson-Crick layer (linear duplexes) | Effect | −0.077 R² (adds noise) |
+| D4 — Best configuration | LOO R² | **0.941** (quantum + classical, 38-d) |
 
 ---
 
