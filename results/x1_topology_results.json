@@ -1,0 +1,304 @@
+{
+  "experiment": "X1: Hairpin vs Linear Topology Validation",
+  "classification": {
+    "n_total": 65536,
+    "n_hairpin": 58,
+    "n_linear": 65478,
+    "hairpin_fraction": 0.000885009765625,
+    "classification_method": "predict_structure() heuristic (palindromic end matching)",
+    "criterion": "hairpin: >=1 predicted stem pair; linear: 0 stem pairs",
+    "hairpin_seqs_sample": [
+      "GGGGCACC",
+      "CCGTGGGG",
+      "CCGCGGGG",
+      "GGGATACC",
+      "GCGCAAGC",
+      "GCTGCGGC",
+      "GCGAGAGC",
+      "GCGCAAGC",
+      "GGGGCACC",
+      "GGGTGACC",
+      "GCGCTGGC",
+      "GGGCAACC",
+      "GCGTTAGC",
+      "GGGATACC",
+      "GCGGGAGC",
+      "GCGGCAGC",
+      "CCCTCGGG",
+      "GCGCTGGC",
+      "CCGATGGG",
+      "GGGGGACC",
+      "CCGTAGGG",
+      "GGGTAACC",
+      "GCGGTGGC",
+      "CCGTTGGG",
+      "GGGCCACC",
+      "CCGGTGGG",
+      "GCGGCAGC",
+      "CCGGAGGG",
+      "GCCAAGGC",
+      "GCGCGGGC",
+      "CCGAGGGG",
+      "GCGATAGC",
+      "CCGACGGG",
+      "GGGGGACC",
+      "GCGCTAGC",
+      "CCGGGGGG",
+      "GCGGCGGC",
+      "GGGCAACC",
+      "GCGTCAGC",
+      "GCGGCGGC",
+      "GCGTAAGC",
+      "GGGCAACC",
+      "GGGCGACC",
+      "GCTCCGGC",
+      "CCGGGGGG",
+      "CCGTAGGG",
+      "GCGTTGGC",
+      "GCGGAGGC",
+      "CCGTTGGG",
+      "GGGCTACC"
+    ],
+    "linear_seqs_sample": [
+      "GCAGGCAA",
+      "GTGGGGCA",
+      "CCCGTATC",
+      "CTTTCCAA",
+      "CTTACAAG",
+      "GGTCCCCG",
+      "TTGTGCGC",
+      "CAGAGGAA",
+      "GTCACTTT",
+      "ATATCCGC",
+      "GCACGGTA",
+      "CTCCTTTT",
+      "TCTAGTTC",
+      "TTTCTGCG",
+      "CTGCATCA",
+      "CATGACTA",
+      "CCCAAAGA",
+      "AAGACACC",
+      "CGGGACGG",
+      "AGATGTAC",
+      "GACCTACG",
+      "GTCAGCCT",
+      "GGAGAGTG",
+      "AATGGTGG",
+      "AGGTTCAG",
+      "GCGACACC",
+      "TAGGAGGA",
+      "CACGGGTC",
+      "TTATAATC",
+      "CCCCTTGC",
+      "TGCAGTAA",
+      "AGTACAAG",
+      "GTCGATAA",
+      "GTCCGGTC",
+      "CCACATAT",
+      "CCTGTGAA",
+      "ACAGATTC",
+      "TGACAAGT",
+      "TACTCTCG",
+      "CGGCGAGT",
+      "CACTTTGG",
+      "CCAACGTC",
+      "AGCCGCGT",
+      "GGGCCGCA",
+      "ACCGTCAG",
+      "CAATGGTT",
+      "GGCCTCAC",
+      "CATACTCA",
+      "ACGGAAGG",
+      "CCGCCTCA"
+    ]
+  },
+  "vienna_rna_available": true,
+  "vienna_note": "8-mers cannot form ViennaRNA-predicted hairpins (min loop constraint). Classification uses predict_structure() heuristic \u2014 same function used by build_circuit() to determine WC layer gates.",
+  "n_per_subset": 58,
+  "prediction_target": "delta_G (SantaLucia NN, kcal/mol)",
+  "model": "Ridge regression, 5-fold CV",
+  "results": {
+    "hairpin": {
+      "full": {
+        "r2_mean": 0.8778312890010758,
+        "r2_std": 0.043799080688443355,
+        "cv_scores": [
+          0.8826128157056858,
+          0.8927240372761958,
+          0.8040137336845825,
+          0.87002914588434,
+          0.9397767124545747
+        ]
+      },
+      "no_wc": {
+        "r2_mean": 0.8890247883070812,
+        "r2_std": 0.056716828109783124,
+        "cv_scores": [
+          0.9049910247643155,
+          0.9016030002890555,
+          0.790122280982125,
+          0.8828877999683881,
+          0.9655198355315215
+        ]
+      },
+      "no_stacking": {
+        "r2_mean": 0.9576612685630819,
+        "r2_std": 0.032322722906212735,
+        "cv_scores": [
+          0.9735684994489571,
+          0.9612601990783085,
+          0.8948736464987375,
+          0.9730221946787173,
+          0.9855818031106889
+        ]
+      },
+      "encoding_only": {
+        "r2_mean": 0.960685671128851,
+        "r2_std": 0.029716676274014753,
+        "cv_scores": [
+          0.9767513545159758,
+          0.9624877977367288,
+          0.9030048021626094,
+          0.9764432294261886,
+          0.9847411718027523
+        ]
+      },
+      "random": {
+        "r2_mean": -0.1295125633297916,
+        "r2_std": 0.24593322257624464,
+        "cv_scores": [
+          -0.03251575036084642,
+          -0.5405996792996848,
+          0.13691325424604273,
+          -0.2667642790593068,
+          0.05540363782483715
+        ]
+      },
+      "_wc_delta": 0.011193499306005439,
+      "_n_valid": 58
+    },
+    "linear": {
+      "full": {
+        "r2_mean": 0.504103898440296,
+        "r2_std": 0.12530002263470572,
+        "cv_scores": [
+          0.3026530176421173,
+          0.5406405289260877,
+          0.6787310618729936,
+          0.5542077869958698,
+          0.4442870967644116
+        ]
+      },
+      "no_wc": {
+        "r2_mean": 0.5119656147417113,
+        "r2_std": 0.10705883328838696,
+        "cv_scores": [
+          0.3373854721541921,
+          0.5286702764598459,
+          0.6713965689491692,
+          0.5349708352921212,
+          0.48740492085322795
+        ]
+      },
+      "no_stacking": {
+        "r2_mean": 0.4422103803465012,
+        "r2_std": 0.19100922331722658,
+        "cv_scores": [
+          0.4851997373024344,
+          0.5894222959312874,
+          0.29527089206360413,
+          0.15945099508231475,
+          0.6817079813528653
+        ]
+      },
+      "encoding_only": {
+        "r2_mean": 0.4010605679632647,
+        "r2_std": 0.22529738387252357,
+        "cv_scores": [
+          0.46928070844807523,
+          0.5782117890651193,
+          0.23074855974156194,
+          0.058625266713870916,
+          0.6684365158476964
+        ]
+      },
+      "random": {
+        "r2_mean": -0.8908106186633123,
+        "r2_std": 0.49834157058808454,
+        "cv_scores": [
+          -0.18370098512813993,
+          -0.8837847622494146,
+          -0.5767598454330305,
+          -1.6441283563478692,
+          -1.1656791441581076
+        ]
+      },
+      "_wc_delta": 0.0078617163014153,
+      "_n_valid": 58
+    },
+    "all": {
+      "full": {
+        "r2_mean": 0.6686655351975394,
+        "r2_std": 0.19179771141775445,
+        "cv_scores": [
+          0.8656929061567419,
+          0.8387168011777593,
+          0.7642043148443234,
+          0.44281104893996426,
+          0.43190260486890775
+        ]
+      },
+      "no_wc": {
+        "r2_mean": 0.6703588208891874,
+        "r2_std": 0.218052214833322,
+        "cv_scores": [
+          0.8816897220873079,
+          0.8841627411164912,
+          0.7399645914983608,
+          0.5233176977413591,
+          0.32265935200241835
+        ]
+      },
+      "no_stacking": {
+        "r2_mean": 0.721340069225265,
+        "r2_std": 0.2446897468867834,
+        "cv_scores": [
+          0.938650320502162,
+          0.9315358684505882,
+          0.870504641631317,
+          0.5315815514697546,
+          0.33442796407250364
+        ]
+      },
+      "encoding_only": {
+        "r2_mean": 0.7197317871097126,
+        "r2_std": 0.24988473977293382,
+        "cv_scores": [
+          0.9405539187435299,
+          0.9341907255382152,
+          0.8717050098783092,
+          0.5308118589337536,
+          0.3213974224547559
+        ]
+      },
+      "random": {
+        "r2_mean": -2.5863138673208197,
+        "r2_std": 1.3732595956344846,
+        "cv_scores": [
+          -1.6901195360488845,
+          -2.5895868918945166,
+          -0.5274385465680331,
+          -4.1857341256485245,
+          -3.938690236444141
+        ]
+      },
+      "_wc_delta": 0.001693285691648061,
+      "_n_valid": 116
+    }
+  },
+  "verdicts": {
+    "Hairpin": "WC HURTS",
+    "Linear": "WC HURTS",
+    "All": "WC NEUTRAL (\u2261)"
+  }
+}

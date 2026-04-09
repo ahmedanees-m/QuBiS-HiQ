@@ -1,0 +1,30 @@
+{
+  "experiment": "1C_revised",
+  "n_pairs": 176,
+  "total_seqs": 352,
+  "n_structured": 176,
+  "n_unstructured": 176,
+  "feature_dim_used": 45,
+  "task": "binary: has_secondary_structure (base 45 features only)",
+  "circuit_version": "v2_ry_cx_ry",
+  "best_classifier": "SVM-RBF",
+  "best_accuracy_mean": 1.0,
+  "best_accuracy_std": 0.0,
+  "success": true,
+  "classifiers": {
+    "SVM-RBF": {
+      "mean": 1.0,
+      "std": 0.0
+    },
+    "SVM-Linear": {
+      "mean": 1.0,
+      "std": 0.0
+    },
+    "RF-100": {
+      "mean": 1.0,
+      "std": 0.0
+    }
+  },
+  "label_assignment": "structured=1 (has_structure=True), unstructured=0",
+  "note": "Original exp1c_parallel.py labelled seq1=0, seq2=1 (arbitrary) -> 50%. Correct labels give 100%."
+}

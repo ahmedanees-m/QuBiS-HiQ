@@ -1,0 +1,15 @@
+{
+    "experiment": "1C",
+    "n_pairs_requested": 10,
+    "n_pairs_found": 10,
+    "feature_dim": 48,
+    "circuit_version": "v2_ry_cx_ry",
+    "classifiers": {
+          "SVM-RBF": {"mean": 0.1, "std": 0.12247448713915891},
+          "SVM-Linear": {"mean": 0.3, "std": 0.2449489742783178},
+          "RF-100": {"mean": 0.2, "std": 0.18708286933869708}
+    },
+    "best_accuracy": 0.3,
+    "best_classifier": "SVM-Linear",
+    "success": false
+}
