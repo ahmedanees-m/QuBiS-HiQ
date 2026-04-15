@@ -7,7 +7,7 @@
 | **Quantum + Classical combined** | 38-d | **0.941** | [0.907, 0.965] | **0.41** | Best overall |
 | Classical physics-informed | 17-d | 0.935 | [0.894, 0.962] | 0.43 | Beats quantum alone |
 | Quantum variable-region | 21-d | 0.911 | [0.857, 0.937] | 0.53 | This work (primary) |
-| Quantum full circuit | 111-d | 0.719 | — | 1.00 | Overfits scaffold |
+| Quantum full circuit | 111-d | 0.719 | - | 1.00 | Overfits scaffold |
 
 **Summary:** Classical physics-informed features (17-d, R²=0.935) outperform quantum features alone (21-d, R²=0.911). Quantum features provide complementary information; the combined 38-d model (R²=0.941) yields the best result. The primary contribution is a physics-informed quantum feature extractor that complements, not replaces, classical thermodynamic models.
 
