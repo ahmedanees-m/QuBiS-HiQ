@@ -131,9 +131,9 @@ pytest tests/                    # Or use pytest
 ```
 
 **Test Coverage:**
-- `test_circuit_builder.py` — Circuit building and API correctness
-- `test_encoding.py` — Nucleotide encoding verification
-- `test_propositions.py` — Mathematical proposition verification
+- `test_circuit_builder.py` - Circuit building and API correctness
+- `test_encoding.py` - Nucleotide encoding verification
+- `test_propositions.py` - Mathematical proposition verification
 
 ---
 
