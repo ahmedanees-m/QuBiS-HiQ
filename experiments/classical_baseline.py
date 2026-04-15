@@ -167,7 +167,7 @@ def run_regression_comparison(n_sequences=5000, seed=42):
     X_min = np.array([build_classical_feature_vector_minimal(s, predict_structure(s))
                       for s in seqs])
 
-    print(f"  Rich features: {X_rich.shape[1]}d | Minimal: {X_min.shape[1]}d | Quantum: 45d")
+    print(f"  Rich features: {X_rich.shape[1]}d | Minimal: {X_min.shape[1]}d | Quantum: 47d (base 45 + stem-pair correlators)")
 
     models = {
         "Ridge (a=1.0)": Ridge(alpha=1.0),
@@ -185,7 +185,7 @@ def run_regression_comparison(n_sequences=5000, seed=42):
             results[key] = {"r2_mean": float(sc.mean()), "r2_std": float(sc.std())}
             print(f"  {model_name:<25} {feat_name:<14} {sc.mean():.4f} ± {sc.std():.4f}")
 
-    print(f"\n  {'QuBiS-HiQ quantum':<25} {'45d':<14} 0.764 ± 0.055  (from Exp 1A)")
+    print(f"\n  {'QuBiS-HiQ quantum':<25} {'47d':<14} 0.764 ± 0.055  (from Exp 1A, base 6N-3=45 + stem-pair correlators)")
     return results
 
 
@@ -242,7 +242,7 @@ def run_classification_comparison(n_pairs=200, seed=42):
             mark = "v" if sc.mean() >= 0.99 else "~" if sc.mean() >= 0.70 else "x"
             print(f"    {clf_name:<25} {sc.mean():.4f} ± {sc.std():.4f}  [{mark}]")
 
-    print(f"\n  QuBiS-HiQ quantum (45d):   1.000 ± 0.000  [v]")
+    print(f"\n  QuBiS-HiQ quantum (47d):   1.000 ± 0.000  [v]")
     return {"n_pairs": len(pairs)}
 
 
