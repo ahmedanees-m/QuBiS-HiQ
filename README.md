@@ -9,13 +9,13 @@
 | Quantum variable-region | 21-d | 0.911 | [0.857, 0.937] | 0.53 | This work (primary) |
 | Quantum full circuit | 111-d | 0.719 | — | 1.00 | Overfits scaffold |
 
-**Summary:** Classical physics-informed features (17-d, R²=0.935) outperform quantum features alone (21-d, R²=0.911). Quantum features provide complementary information — the combined 38-d model (R²=0.941) is the best result. The primary contribution is a physics-informed quantum feature extractor that complements, not replaces, classical thermodynamic models.
+**Summary:** Classical physics-informed features (17-d, R²=0.935) outperform quantum features alone (21-d, R²=0.911). Quantum features provide complementary information; the combined 38-d model (R²=0.941) yields the best result. The primary contribution is a physics-informed quantum feature extractor that complements, not replaces, classical thermodynamic models.
 
 ---
 
 ## Overview
 
-QuBiS-HiQ is a physics-informed quantum circuit that encodes SantaLucia nearest-neighbour DNA thermodynamic parameters into gate angles and extracts feature vectors via Pauli-Z expectation values. The circuit is validated on 65,536 synthetic 8-mers (Exp 1A), a five-way ablation study (Exp 1B), structural classification of 176 sequence pairs (Exp 1C), real IBM quantum hardware across two processors (Exp 1D), and 64 experimental melting temperatures from Oliveira et al. 2020 (Exp 1E), achieving R²=0.88, r=0.94, MAE=0.60°C on Exp 1E alone. The combined quantum+classical model achieves R²=0.941, MAE=0.41°C.
+QuBiS-HiQ is a physics-informed quantum circuit that encodes SantaLucia nearest-neighbour DNA thermodynamic parameters into gate angles and extracts feature vectors via Pauli-Z expectation values. The circuit is validated on 65,536 synthetic 8-mers (Exp 1A), a five-way ablation study (Exp 1B), structural classification of 176 sequence pairs (Exp 1C), real IBM quantum hardware across two processors (Exp 1D), and 64 experimental melting temperatures from Oliveira et al. 2020 (Exp 1E), achieving R²=0.88, r=0.94, and MAE=0.60°C on Exp 1E alone. The combined quantum+classical model achieves R²=0.941, MAE=0.41°C.
 
 **Circuit design (v2):** Each nucleotide is encoded onto two qubits via Ry rotations calibrated to SantaLucia free energies. Adjacent qubits are entangled with CX+Ry(θ) gates where θ=π·σ(−β·ΔG°), β=0.39 mol/kcal. Z-basis measurements yield ⟨Z⟩, ⟨ZZ⟩_NN, and ⟨ZZ⟩_NNN correlators as features (B=6N−3 base dimensions, plus ViennaRNA stem-pair correlators).
 
@@ -25,7 +25,7 @@ QuBiS-HiQ is a physics-informed quantum circuit that encodes SantaLucia nearest-
 
 ---
 
-## ⚠️ Limitations & Scope
+## Limitations & Scope
 
 **Classical comparison:**
 A physics-informed classical baseline (17-d variable-region features) achieves **R²=0.935**, outperforming the quantum circuit alone (R²=0.911) by 2.4 percentage points. The quantum advantage claim is relative to *restricted* product-state classical models, not the full physics-informed classical approach. See [Exp D2](experiments/classical_physics_baseline.py) and [Exp D4](experiments/best_configuration.py).
@@ -34,7 +34,7 @@ A physics-informed classical baseline (17-d variable-region features) achieves *
 Ablation studies (Exp D3) show that when features are restricted to the variable-region qubits, all non-random circuit variants achieve nearly identical performance (R²=0.90–0.91). The stacking-angle encoding (Boltzmann-sigmoid ΔG°) is the primary signal source; entanglement contributes marginally for variable-region Tm prediction.
 
 **Hardware validation scope:**
-IBM hardware tests (Exp 1D) used n=30 sequences and measured cosine similarity between hardware and simulator outputs, not prediction R². Results demonstrate circuit implementation fidelity, not end-to-end quantum advantage on the full dataset.
+IBM hardware tests (Exp 1D) used n=30 sequences and measured cosine similarity between hardware and simulator outputs, not prediction R². Results demonstrate circuit implementation fidelity rather than end-to-end quantum advantage on the full dataset.
 
 **Numerical verifications:**
 The `proofs/` scripts numerically verify mathematical claims via exhaustive enumeration and statevector simulation (ε < 10⁻¹⁵). They are computational verifications, **not** formal proof-assistant artifacts (Coq, Isabelle, Lean).
@@ -44,7 +44,7 @@ Exp 1E uses n=64 sequences from a single scaffolded library. Generalisation to a
 
 ---
 
-## Fair Comparison: Physics-Informed Classical vs Quantum
+## Comparison: Physics-Informed Classical vs Quantum
 
 A common pitfall in quantum ML is comparing quantum circuits against uninformed classical models. Both should use the same physics knowledge for a fair test.
 
@@ -80,7 +80,7 @@ QuBiS-HiQ/
 │   ├── classical_twin.py   # Classical SantaLucia feature vectors (D2 baseline)
 │   ├── interference.py     # Quantum interference analysis utilities
 │   └── topology_gated.py   # Topology-aware WC layer gating
-├── experiments/            # Reproducible experiment scripts (Exp 1A–1E, D1–D4, X1–X2)
+├── experiments/            # Reproducible experiment scripts (Exp 1A-1E, D1-D4, X1-X2)
 ├── proofs/                 # Numerical verification scripts (Propositions 1–3)
 │                           # NOTE: Computational verifications via statevector simulation
 │                           # (ε < 10⁻¹⁵). NOT formal proof-assistant artifacts.
@@ -139,7 +139,7 @@ pytest tests/                    # Or use pytest
 
 ## Reproducing All Experiments
 
-### Exp 1A — ΔG° Regression (65,536 8-mers)
+### Exp 1A - ΔG° Regression (65,536 8-mers)
 
 ```bash
 python experiments/exp1a_parallel.py --n-seqs 65536 --n-cpus 64
@@ -147,7 +147,7 @@ python experiments/exp1a_parallel.py --n-seqs 65536 --n-cpus 64
 # Feature dim: 47d (base 6N−3=45 + up to 2 ViennaRNA stem-pair correlators, zero-padded)
 ```
 
-### Exp 1B — Five-Way Ablation (500 sequences)
+### Exp 1B - Five-Way Ablation (500 sequences)
 
 ```bash
 python experiments/exp1b_parallel.py --n-seqs 500
@@ -165,7 +165,7 @@ Results with 95% confidence intervals (KFold-5, Ridge α=1.0, n=500):
 
 **Statistical note:** Full circuit vs encoding-only ΔR²≈0.007 is not statistically significant on 500 sequences. The critical result is random angles → R²=−0.147: a 0.96-unit collapse confirming the SantaLucia angle schedule, not arbitrary entanglement, drives performance.
 
-### Exp 1C — Structural Classification (176 pairs)
+### Exp 1C - Structural Classification (176 pairs)
 
 ```bash
 python experiments/exp1c_parallel.py
@@ -174,16 +174,16 @@ python experiments/analyze_exp1c.py
 # Labels: structured = ViennaRNA MFE hairpin (has_structure()=True); NOT arbitrary seq1/seq2
 ```
 
-### Exp 1D — IBM Hardware Validation (Circuit Fidelity)
+### Exp 1D - IBM Hardware Validation (Circuit Fidelity)
 
 ```bash
 # Requires IBM Quantum Plan access
-python experiments/exp1d_hardware.py   # ibm_fez    (Heron r2) — 30 seqs, 4096 shots
-python experiments/exp1d_torino.py     # ibm_torino (Heron r1) — 30 seqs
+python experiments/exp1d_hardware.py   # ibm_fez    (Heron r2) - 30 seqs, 4096 shots
+python experiments/exp1d_torino.py     # ibm_torino (Heron r1) - 30 seqs
 python experiments/exp1d_12mer.py      # 12-mer, 24 qubits, DD-XY4 + twirling
 ```
 
-**Scope:** These experiments measure **circuit implementation fidelity** — cosine similarity between hardware and noiseless simulator outputs. They confirm the circuit runs correctly on real QPUs. Prediction R² was evaluated on simulator due to shot-noise constraints on hardware.
+**Scope:** These experiments measure **circuit implementation fidelity** - cosine similarity between hardware and noiseless simulator outputs. They confirm the circuit runs correctly on real QPUs. Prediction R² was evaluated on the simulator due to hardware shot-noise constraints.
 
 | Backend | n seqs | Shots | Cosine similarity | Metric |
 |---------|--------|-------|------------------|--------|
@@ -191,7 +191,7 @@ python experiments/exp1d_12mer.py      # 12-mer, 24 qubits, DD-XY4 + twirling
 | ibm_torino (Heron r1) | 30 | 4096 | 0.9948 ± 0.0015 | Fidelity |
 | 12-mer + DD-XY4 | 30 | 4096 | 0.9926 ± 0.0013 | Fidelity |
 
-### Exp 1E — Experimental Tm Validation (Oliveira 2020)
+### Exp 1E - Experimental Tm Validation (Oliveira 2020)
 
 ```bash
 python experiments/exp1e_corrected.py
@@ -223,7 +223,7 @@ python proofs/proposition3.py   # ⟨ZaZb⟩ interferometric formula (max error 
 
 ## Quantum Kernel Diagnostic Experiments
 
-### Exp D1 — Kernel Condition Number Analysis
+### Exp D1 - Kernel Condition Number Analysis
 
 ```bash
 python experiments/kernel_condition_analysis.py
@@ -231,12 +231,12 @@ python experiments/kernel_condition_analysis.py
 
 | Kernel | n | κ | Assessment |
 |--------|---|---|-----------|
-| Exact quantum kernel (8-mer statevector) | 50 | **23** | ✅ Well-conditioned |
-| Feature-vector linear kernel (Oliveira 19-nt, MPS) | 64 | **1.6×10⁷** | ⚠️ Regularise |
+| Exact quantum kernel (8-mer statevector) | 50 | **23** | Well-conditioned |
+| Feature-vector linear kernel (Oliveira 19-nt, MPS) | 64 | **1.6×10⁷** | Regularise |
 
-The 8-mer quantum kernel is full-rank and well-conditioned (all 50 eigenvalues positive). The Oliveira 19-nt kernel is poorly conditioned (κ=1.6×10⁷), confirming that **Ridge regularisation is essential** for Exp 1E — the LOO-CV Ridge protocol is the correct approach.
+The 8-mer quantum kernel is full-rank and well-conditioned (all 50 eigenvalues positive). The Oliveira 19-nt kernel is poorly conditioned (κ=1.6×10⁷), confirming that **Ridge regularisation is essential** for Exp 1E - the LOO-CV Ridge protocol is the correct approach.
 
-### Exp D2 — Physics-Informed Classical Baseline
+### Exp D2 - Physics-Informed Classical Baseline
 
 ```bash
 python experiments/classical_physics_baseline.py
@@ -255,7 +255,7 @@ LOO-CV Ridge on 64 Oliveira sequences (same protocol as Exp 1E):
 
 **Key finding:** The 17-d classical variable-region vector (GC count + boundary ΔG° steps + one-hot NNN centre) achieves R²=0.935, exceeding quantum-alone (R²=0.911). The predictive signal resides primarily in the physics encoding, not in quantum interference.
 
-### Exp D3 — Entanglement Ablation Study
+### Exp D3 - Entanglement Ablation Study
 
 ```bash
 python experiments/entanglement_ablation.py
@@ -265,7 +265,7 @@ python experiments/entanglement_ablation.py
 
 | Circuit Variant | LOO R² | ΔR² vs full | p-value |
 |----------------|--------|-------------|---------|
-| Full (Enc + WC + Stack) | 0.902 | — | — |
+| Full (Enc + WC + Stack) | 0.902 | - | - |
 | No Watson-Crick | **0.912** | +0.009 | n.s. |
 | No Stacking | 0.910 | +0.008 | n.s. |
 | Encoding only (no entanglement) | 0.909 | +0.007 | n.s. |
@@ -275,17 +275,17 @@ python experiments/entanglement_ablation.py
 
 | Circuit Variant | LOO R² | ΔR² vs full |
 |----------------|--------|-------------|
-| Full (Enc + WC + Stack) | 0.776 | — |
+| Full (Enc + WC + Stack) | 0.776 | - |
 | No Watson-Crick | 0.853 | +0.077 |
 | Encoding only (no entanglement) | 0.561 | −0.214 |
 | Random-angle CX | −0.315 | −1.090 |
 
 **Key findings:**
 1. For variable-region features, all non-random variants achieve R²=0.90–0.91. Entanglement differences are within noise (p = n.s.).
-2. Random-angle CX collapses to R²=−0.19 — the Boltzmann-sigmoid angle schedule is essential, not arbitrary entanglement.
-3. Removing the WC layer improves full-feature performance (+0.077 R²) for linear duplexes — ViennaRNA hairpin predictions add noise here. Use `skip_wc=True` for linear duplex tasks.
+2. Random-angle CX collapses to R²=−0.19 - the Boltzmann-sigmoid angle schedule is essential, not arbitrary entanglement.
+3. Removing the WC layer improves full-feature performance (+0.077 R²) for linear duplexes - ViennaRNA hairpin predictions add noise here. Use `skip_wc=True` for linear duplex tasks.
 
-### Exp D4 — Best Configuration Synthesis
+### Exp D4 - Best Configuration Synthesis
 
 ```bash
 python experiments/best_configuration.py
@@ -299,15 +299,15 @@ python experiments/best_configuration.py
 | Quantum full features (no-WC, 111-d) | 0.750 | 0.870 | 0.88°C |
 | Kernel Ridge (linear kernel, no-WC) | 0.895 | 0.946 | 0.58°C |
 
-The combined 38-d model is the best result (+0.006 R² over classical alone). Quantum features encode complementary correlations not captured by the 17-d classical vector, yielding a synergistic gain when fused. This supports QuBiS-HiQ as a **physics-informed feature extractor that complements classical thermodynamic models**.
+The combined 38-d model yields the best result (+0.006 R² over the classical alone model). Quantum features encode complementary correlations not captured by the 17-dimensional classical vector, yielding a synergistic gain when fused. This supports QuBiS-HiQ as a **physics-informed feature extractor that complements classical thermodynamic models**.
 
-### Exp X1 — Watson-Crick Topology Validation
+### Exp X1 - Watson-Crick Topology Validation
 
 ```bash
 python experiments/x1_topology_validation.py
 ```
 
-ViennaRNA predicts secondary structure for only 58/65,536 (0.1%) of random 8-mers. The WC layer has negligible impact on ΔG° prediction regardless of topology (|ΔR²| < 0.012, within standard deviation) — physically correct, since ΔG° is determined by stacking, not intramolecular base-pairing.
+ViennaRNA predicts secondary structure for only 58/65,536 (0.1%) of random 8-mers. The WC layer has a negligible impact on ΔG° prediction regardless of topology (|ΔR²| < 0.012, within standard deviation) - physically correct, since ΔG° is determined by stacking, not intramolecular base-pairing.
 
 | Subset | n | Full R² | No-WC R² | ΔR² | Verdict |
 |--------|---|---------|----------|-----|---------|
@@ -315,7 +315,7 @@ ViennaRNA predicts secondary structure for only 58/65,536 (0.1%) of random 8-mer
 | Linear | 58 | 0.504 ± 0.125 | 0.512 ± 0.107 | +0.008 | Neutral |
 | All combined | 116 | 0.669 ± 0.192 | 0.670 ± 0.218 | +0.002 | Neutral |
 
-### Exp X2 — Stacking-Only Benchmarks with Bootstrap CIs
+### Exp X2 - Stacking-Only Benchmarks with Bootstrap CIs
 
 ```bash
 python experiments/x2_stacking_only_benchmark.py
@@ -337,34 +337,20 @@ python experiments/x2_stacking_only_benchmark.py
 
 | Experiment | Metric | Value |
 |------------|--------|-------|
-| Exp 1A — ΔG° regression (65,536 8-mers) | CV R² | 0.764 ± 0.055 |
-| Exp 1B — Ablation: full vs random | R² drop | 0.813 → −0.147 |
-| Exp 1C — Structural classification (n=352) | Accuracy | 100% ± 0.0% |
-| Exp 1D — ibm_fez hardware (n=30, 4096 shots) | Cosine similarity | 0.9970 ± 0.0005 |
-| Exp 1D — ibm_torino cross-platform | Cosine similarity | 0.9948 ± 0.0015 |
-| Exp 1E — Oliveira 2020 Tm, quantum only | R² / r / MAE | 0.88 / 0.94 / 0.60°C |
-| D1 — Kernel condition (8-mer, n=50) | κ | 23 (well-conditioned) |
-| D1 — Kernel condition (Oliveira, n=64) | κ | 1.6×10⁷ (regularise) |
-| **D2 — Best classical baseline** | **LOO R²** | **0.935 (17-d physics features)** |
-| D3 — Entanglement (variable-region) | ΔR² | <0.01 vs encoding-only (n.s.) |
-| D3 — WC layer on linear duplexes | Effect | +0.077 R² to remove it |
-| **D4 — Best overall (quantum+classical)** | **LOO R²** | **0.941 [0.907, 0.965]** |
-| X1 — WC layer on 8-mer hairpins | ΔR² | ≈0 (neutral) |
-| X2 — Stacking-only + bootstrap CI | LOO R² / CI | 0.941 [0.907, 0.965] |
-
----
-
-## Reproducibility Checklist
-
-- [x] All datasets included (`data/oliveira2020_corrected_dataset.json`)
-- [x] All code open-source (GPLv3)
-- [x] Random seeds specified (`seed=42` throughout)
-- [x] Hardware job IDs logged (see Hardware table below)
-- [x] Pinned dependencies (`requirements-pinned.txt`)
-- [x] Bootstrap confidence intervals on key results (Exp X2)
-- [x] Classical baselines use same physics knowledge as quantum (fair comparison)
-- [ ] Docker container for exact environment reproduction *(planned)*
-- [ ] IBM backend versioning — Heron r1/r2 firmware may vary across runs
+| Exp 1A - ΔG° regression (65,536 8-mers) | CV R² | 0.764 ± 0.055 |
+| Exp 1B - Ablation: full vs random | R² drop | 0.813 → −0.147 |
+| Exp 1C - Structural classification (n=352) | Accuracy | 100% ± 0.0% |
+| Exp 1D - ibm_fez hardware (n=30, 4096 shots) | Cosine similarity | 0.9970 ± 0.0005 |
+| Exp 1D - ibm_torino cross-platform | Cosine similarity | 0.9948 ± 0.0015 |
+| Exp 1E - Oliveira 2020 Tm, quantum only | R² / r / MAE | 0.88 / 0.94 / 0.60°C |
+| D1 - Kernel condition (8-mer, n=50) | κ | 23 (well-conditioned) |
+| D1 - Kernel condition (Oliveira, n=64) | κ | 1.6×10⁷ (regularise) |
+| **D2 - Best classical baseline** | **LOO R²** | **0.935 (17-d physics features)** |
+| D3 - Entanglement (variable-region) | ΔR² | <0.01 vs encoding-only (n.s.) |
+| D3 - WC layer on linear duplexes | Effect | +0.077 R² to remove it |
+| **D4 - Best overall (quantum+classical)** | **LOO R²** | **0.941 [0.907, 0.965]** |
+| X1 - WC layer on 8-mer hairpins | ΔR² | ≈0 (neutral) |
+| X2 - Stacking-only + bootstrap CI | LOO R² / CI | 0.941 [0.907, 0.965] |
 
 ---
 
