@@ -1,6 +1,6 @@
 # QuBiS-HiQ: Physics-Informed Quantum Feature Extraction for DNA Thermodynamics
 
-## Primary Result — Honest Comparison
+## Primary Result
 
 | Method | Features | LOO R² | 95% CI | MAE (°C) | Notes |
 |--------|----------|--------|--------|----------|-------|
