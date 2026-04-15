@@ -365,8 +365,8 @@ python experiments/x2_stacking_only_benchmark.py
 |--------|--------|--------|--------|
 | ibm_fez | Heron r2 | 156 | `d6qe32i0q0ls73cs7ah0` |
 | ibm_torino | Heron r1 | 133 | `d6qeljropkic73fhv7rg` |
-| 12-mer baseline | — | 24 | `d6qeh8nr88ds73dca350` |
-| 12-mer mitigated | — | 24 | `d6qehkbopkic73fhv1o0` |
+| ibm_fez (12-mer baseline) | Heron r2 | 24 | `d6qeh8nr88ds73dca350` |
+| ibm_fez (12-mer mitigated) | Heron r2 | 24 | `d6qehkbopkic73fhv1o0` |
 
 ---
 
